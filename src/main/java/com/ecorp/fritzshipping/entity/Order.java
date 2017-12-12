@@ -6,12 +6,14 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@Table(name = "shipment_order")
 public class Order extends GeneratedLongIdEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;

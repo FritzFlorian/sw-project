@@ -1,11 +1,12 @@
 package com.ecorp.fritzshipping.entity;
 
 import com.ecorp.fritzshipping.entity.util.GeneratedLongIdEntity;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 
 
 @Embeddable
-public class Address extends GeneratedLongIdEntity {
+public class Address{
     private String addressee;
     private String street;
     private String houseNumber;
@@ -62,5 +63,49 @@ public class Address extends GeneratedLongIdEntity {
 
     public void setPostalCode(int postalCode) {
         this.postalCode = postalCode;
+    }
+    
+    // Equals & HashCode must be implemented as
+    // this entity has no id, but is simply embedded 
+    // and therefore defined solely by its data.
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.addressee);
+        hash = 37 * hash + Objects.hashCode(this.street);
+        hash = 37 * hash + Objects.hashCode(this.houseNumber);
+        hash = 37 * hash + Objects.hashCode(this.city);
+        hash = 37 * hash + this.postalCode;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Address other = (Address) obj;
+        if (this.postalCode != other.postalCode) {
+            return false;
+        }
+        if (!Objects.equals(this.addressee, other.addressee)) {
+            return false;
+        }
+        if (!Objects.equals(this.street, other.street)) {
+            return false;
+        }
+        if (!Objects.equals(this.houseNumber, other.houseNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        return true;
     }
 }

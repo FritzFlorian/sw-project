@@ -1,13 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xxmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <body>
-        <ui:composition template="./WEB-INF/template/myTemplate.xhtml">
-            <ui:param name="title" value="FritzShipping" />
-
+        <ui:composition template="/WEB-INF/template/baseTemplate.xhtml">
+            <ui:param name="title" value="FritzShipping"/>
+            <ui:param name="homeHref" value="#{request.contextPath}/index.xhtml"/>
+            
             <ui:define name="navContent">
                 <b:navbarLinks>
                     
@@ -22,14 +25,8 @@
                     FritzShipping is the go-to shipping service for your company.
                 </p>
                 
-                <p>
-                    Benefits
-                </p>
-                <ul>
-                    <li>Fast Delivery</li>
-                    <li>World Class Customer Service</li>
-                    <li>Low Prices</li>
-                </ul>
+                <b:button href="#{request.contextPath}/customer-website/login.xhtml"
+                          value="Customer Website"/>
             </ui:define>
 
         </ui:composition>

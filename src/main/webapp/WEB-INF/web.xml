@@ -11,7 +11,17 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-    <!-- für welche Faclets ist das Servlet zuständig?  -->
+    <!-- Filter for customer area, only logged in customers should access it -->
+    <filter>
+	<filter-name>CustomerWebsiteFilter</filter-name>
+        <filter-class>com.ecorp.fritzshipping.util.CustomerWebsiteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CustomerWebsiteFilter</filter-name>
+	<url-pattern>/customer-website/dashboard/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- Configure our facelet  -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>

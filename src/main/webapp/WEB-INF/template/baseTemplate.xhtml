@@ -9,16 +9,24 @@
         <title>#{title}</title>
     </h:head>
     <h:body>
-        <b:navBar brand="#{title}" brand-img="#{resource['image/logo-small.png']}" brand-img-style="height:100%; width: auto; padding-right: 10px;" brandHref="#" fixed="top" sticky="false">
-            <ui:insert name="navContent"></ui:insert>
-        </b:navBar>
+        <h:form>
+            <b:navBar brand="#{title}" 
+                      brand-img="#{resource['image/logo-small.png']}" 
+                      brandHref="#{homeHref}"
+                      brand-img-style="height:100%; width: auto; padding-right: 10px;" 
+                      fixed="top" sticky="false">
+                <ui:insert name="navContent"></ui:insert>
+            </b:navBar>
+        </h:form>
         <b:container>
             <b:jumbotron>
-                <ui:insert name="content">Content</ui:insert>
+                <ui:insert name="content">
+                    Main Content
+                </ui:insert>
             </b:jumbotron>
         </b:container>
         <b:navBar brandHref="#" position="bottom" sticky="false">
-            bla
+            Footer Content - Links, etc.
         </b:navBar>
     </h:body>
 </html>

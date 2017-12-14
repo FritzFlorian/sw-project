@@ -1,0 +1,35 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- Need to pass an parameter 'address' -->
+    
+    <b:inputText label="Addressee"
+                   value="#{address.addressee}"
+                   placeholder="addressee"
+                   required="true"/>
+    
+    <b:formGroup>
+        <b:inputText label="Postal Code"
+                       value="#{address.postalCode}"
+                       placeholder="street"
+                       required="true"/>
+        <b:inputText label="City"
+                       value="#{address.city}"
+                       placeholder="city"
+                       required="true"/>
+    </b:formGroup>
+    
+    <b:formGroup>
+        <b:inputText label="Street"
+                       value="#{address.street}"
+                       placeholder="street"
+                       required="true"/>
+        <b:inputText label="Nr."
+                       value="#{address.houseNumber}"
+                       placeholder="houseNumber"
+                       required="true"/>
+    </b:formGroup>
+</ui:composition>

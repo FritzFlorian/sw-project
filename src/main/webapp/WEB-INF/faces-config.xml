@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <navigation-rule>
+        <description>Navigation rules for the customer website.</description>
+        <from-view-id>/customer-website/*</from-view-id>
+        
+        <navigation-case>
+            <from-outcome>login-failed</from-outcome>
+            <to-view-id>/customer-website/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>login-success</from-outcome>
+            <to-view-id>/customer-website/dashboard/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/customer-website/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registration-failed</from-outcome>
+            <to-view-id>/customer-website/register.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registration-success</from-outcome>
+            <to-view-id>/customer-website/register-success.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+</faces-config>

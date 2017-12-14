@@ -6,7 +6,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.RollbackException;
 import javax.transaction.Transactional;
 
 

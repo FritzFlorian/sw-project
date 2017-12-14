@@ -23,12 +23,7 @@ public class LoginModel implements Serializable{
     
     public String register() {
         Customer newCustomer =  customerService.createCustomer(loginScreenCustomer);
-        if (newCustomer == null) {
-            return "registration-failed";
-        } else {
-            this.loginScreenCustomer = new Customer();
-            return "registration-success";
-        }
+        return "registration-success";
     }
 
     public String login() {

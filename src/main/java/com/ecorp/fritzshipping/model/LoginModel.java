@@ -22,7 +22,7 @@ public class LoginModel implements Serializable{
     }
     
     public String register() {
-        Customer newCustomer =  customerService.createCustomer(loginScreenCustomer);
+        customerService.createCustomer(loginScreenCustomer);
         return "registration-success";
     }
 

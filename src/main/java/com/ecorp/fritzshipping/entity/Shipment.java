@@ -35,6 +35,8 @@ public class Shipment extends RandomUUIDEntity{
     })
     private Address recipient;
     
+    private ShipmentType type;
+    
     @OneToMany
     private Collection<TrackingPoint> trackingPoints;
     @OneToMany
@@ -44,13 +46,17 @@ public class Shipment extends RandomUUIDEntity{
         // Empty Default Constructor
     }
 
-    public Shipment(int weight, boolean pickup, Address sender, Address recipient, Collection<TrackingPoint> trackingPoints, Collection<TrackingNotification> trackingNotifications) {
+    public Shipment(int weight, boolean pickup, Address sender, 
+            Address recipient, Collection<TrackingPoint> trackingPoints, 
+            Collection<TrackingNotification> trackingNotifications,
+            ShipmentType type) {
         this.weight = weight;
         this.pickup = pickup;
         this.sender = sender;
         this.recipient = recipient;
         this.trackingPoints = trackingPoints;
         this.trackingNotifications = trackingNotifications;
+        this.type = type;
     }
 
     public int getWeight() {
@@ -99,5 +105,18 @@ public class Shipment extends RandomUUIDEntity{
 
     public void setRecipient(Address recipient) {
         this.recipient = recipient;
+    }
+
+    public ShipmentType getType() {
+        return type;
+    }
+
+    public void setType(ShipmentType type) {
+        this.type = type;
+    }
+    
+    public int getPrice() {
+        // Could add some logic for prices based on address distance.
+        return this.type.getPrice();
     }
 }

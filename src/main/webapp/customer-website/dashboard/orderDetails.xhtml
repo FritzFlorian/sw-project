@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+        <ui:composition template="/WEB-INF/template/customerWebsiteTemplate.xhtml">
+            <ui:define name="content">
+                <h1>Order Details</h1>
+                <b:form>
+                    <p><b>ID: </b>#{orderModel.currentOrder.id}</p>
+                    <p><b>Created At: </b>#{orderModel.currentOrder.createdAt}</p>
+                    <p><b>Total Price </b>#{orderModel.currentOrder.totalPrice / 100} $</p>
+                    <h2>Shipments of this Order</h2>
+                    <b:dataTable var="shipment" value="#{orderModel.currentOrder.shipments}">
+                        <b:dataTableColumn>
+                            <f:facet name="header">Sender</f:facet>
+                            #{shipment.sender.addressee}<br/>
+                            #{shipment.sender.street}<br/>
+                            #{shipment.sender.houseNumber}<br/>
+                            #{shipment.sender.postalCode}<br/>
+                            #{shipment.sender.city}<br/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">Recipient</f:facet>
+                            #{shipment.recipient.addressee}<br/>
+                            #{shipment.recipient.street}<br/>
+                            #{shipment.recipient.houseNumber}<br/>
+                            #{shipment.recipient.postalCode}<br/>
+                            #{shipment.recipient.city}<br/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">Shipment Type</f:facet>
+                            #{shipment.type}
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">Price</f:facet>
+                            #{shipment.type.price / 100} $
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">Weight</f:facet>
+                            #{shipment.weight}
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">Max Weight</f:facet>
+                            #{shipment.type.maxWeight}
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                    
+                    <b:commandButton value="Back to Dashboard" action="./index.xhtml"/>
+                </b:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

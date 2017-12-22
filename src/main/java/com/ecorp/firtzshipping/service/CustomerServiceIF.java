@@ -29,4 +29,14 @@ public interface CustomerServiceIF {
      */
     public Order placeOrder(Customer customer, List<Shipment> shipments)
             throws ShipmentException;
+    
+    
+    /**
+     * Loads an order by id.
+     * Preloads all shipments.
+     * 
+     * @param id The id of the order to be loaded.
+     * @return The loaded order.
+     */
+    public Order getOrder(long id);
 }

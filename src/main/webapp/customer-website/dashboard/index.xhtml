@@ -34,7 +34,8 @@
                         </b:dataTableColumn>
                         <b:dataTableColumn>
                             <f:facet name="header">Actions</f:facet>
-                            <b:commandButton value="View Order Details"/>
+                            <b:commandButton value="View Order Details"
+                                             action="#{orderModel.viewOrderDetails(order)}"/>
                         </b:dataTableColumn>
                     </b:dataTable>
                 </b:form>

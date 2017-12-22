@@ -32,11 +32,10 @@ public class CustomerService implements CustomerServiceIF{
     @Override
     @Transactional
     public Customer login(Customer unauthorizedCustomer) {
-        System.out.println("Login....");
         TypedQuery<Customer> query = 
                 em.createQuery("SELECT c "
                              + "FROM Customer c "
-                             + "JOIN FETCH c.orders "
+                             + "LEFT JOIN FETCH c.orders "
                              + "WHERE c.email=:email and "
                              + "      c.password=:password", Customer.class);
         query.setParameter("email", unauthorizedCustomer.getEmail());
@@ -44,7 +43,6 @@ public class CustomerService implements CustomerServiceIF{
         
         List<Customer>foundCustomers = query.getResultList();
         if (foundCustomers.size() > 0) {
-            System.out.println(foundCustomers.get(0).getOrders().size());
             return foundCustomers.get(0);
         } else {
             return null;
@@ -69,6 +67,20 @@ public class CustomerService implements CustomerServiceIF{
         em.persist(newOrder);
         
         return newOrder;
+    }
+
+    @Override
+    @Transactional
+    public Order getOrder(long id) {
+        TypedQuery<Order> query = 
+                em.createQuery("SELECT o "
+                             + "FROM Order o "
+                             + "LEFT JOIN FETCH o.shipments "
+                             + "WHERE o.id=:id" , Order.class);
+        query.setParameter("id", id);
+        Order result = query.getSingleResult();
+        
+        return result;
     }
     
 }

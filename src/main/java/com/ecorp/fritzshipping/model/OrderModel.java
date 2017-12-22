@@ -28,6 +28,9 @@ public class OrderModel implements Serializable{
     private Shipment newShipment;
     private ShipmentException lastException;
     
+    // Keep the currently selected order (detail view).
+    private Order currentOrder;
+    
     public OrderModel() {
         newShipment = new Shipment();
         shipmentsOfCurrentOrder = new LinkedList<>();
@@ -100,6 +103,16 @@ public class OrderModel implements Serializable{
 
     public ShipmentException getLastException() {
         return lastException;
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+    
+    public String viewOrderDetails(Order order) {
+        currentOrder = customerService.getOrder(order.getId());
+        
+        return "order-details";
     }
     
 }

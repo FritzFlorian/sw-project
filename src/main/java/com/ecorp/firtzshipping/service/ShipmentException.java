@@ -2,12 +2,16 @@ package com.ecorp.firtzshipping.service;
 
 import com.ecorp.fritzshipping.entity.Shipment;
 
-class ShipmentException extends Exception {
+public class ShipmentException extends Exception {
     private Shipment shipment;
 
     public ShipmentException(Shipment shipment, String message) {
         super(message);
         this.shipment = shipment;
+    }
+
+    ShipmentException() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Shipment getShipment() {

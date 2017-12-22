@@ -3,14 +3,16 @@ package com.ecorp.firtzshipping.service;
 import com.ecorp.fritzshipping.entity.Shipment;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 @RequestScoped
 public class DeliveryService implements DeliveryIF{
-    @PersistenceUnit
+    @PersistenceContext
     private EntityManager em;
     
     @Override
+    @Transactional
     public Shipment createShipment(Shipment shipment) throws ShipmentException {
         // Simulate some business logic. For this a simple check is enough.
         if (shipment.getWeight() > shipment.getType().getMaxWeight()) {

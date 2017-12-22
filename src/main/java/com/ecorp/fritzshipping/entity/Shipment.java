@@ -43,7 +43,8 @@ public class Shipment extends RandomUUIDEntity{
     private Collection<TrackingNotification> trackingNotifications;
     
     public Shipment() {
-        // Empty Default Constructor
+        this.sender = new Address();
+        this.recipient = new Address();
     }
 
     public Shipment(int weight, boolean pickup, Address sender, 

@@ -8,6 +8,7 @@
         <description>Navigation rules for the customer website.</description>
         <from-view-id>/customer-website/*</from-view-id>
         
+        <!-- Login Navigation Cases -->
         <navigation-case>
             <from-outcome>login-failed</from-outcome>
             <to-view-id>/customer-website/login.xhtml</to-view-id>
@@ -18,15 +19,39 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>logout</from-outcome>
-            <to-view-id>/customer-website/login.xhtml</to-view-id>
+            <to-view-id>/customer-website/login.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        
+        <!-- Registration Navigation Cases -->
         <navigation-case>
             <from-outcome>registration-failed</from-outcome>
             <to-view-id>/customer-website/register.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>registration-success</from-outcome>
-            <to-view-id>/customer-website/register-success.xhtml</to-view-id>
+            <to-view-id>/customer-website/registerSuccess.xhtml</to-view-id>
+        </navigation-case>
+        
+        <!-- Order Creation Navigation Cases -->
+        <navigation-case>
+            <from-outcome>shipment-added</from-outcome>
+            <to-view-id>/customer-website/dashboard/orderCreationOverview.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>shipment-removed</from-outcome>
+            <to-view-id>/customer-website/dashboard/orderCreationOverview.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>order-canceled</from-outcome>
+            <to-view-id>/customer-website/dashboard/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>order-creation-success</from-outcome>
+            <to-view-id>/customer-website/dashboard/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>order-creation-error</from-outcome>
+            <to-view-id>/customer-website/dashboard/orderCreationOverview.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     

@@ -2,18 +2,18 @@ package com.ecorp.fritzshipping.entity;
 
 import com.ecorp.fritzshipping.entity.util.GeneratedLongIdEntity;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
 public class Customer extends GeneratedLongIdEntity {
     @OneToMany(mappedBy="customer")
-    private Collection<Order> orders;
+    private List<Order> orders;
     
     private long bankAccountId;
     @Column(unique=true)
@@ -27,11 +27,11 @@ public class Customer extends GeneratedLongIdEntity {
         this.address = new Address();
     }
 
-    public Collection<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Collection<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 

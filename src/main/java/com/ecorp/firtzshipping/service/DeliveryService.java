@@ -25,5 +25,10 @@ public class DeliveryService implements DeliveryIF{
         
         return shipment;
     }
+
+    @Override
+    public Shipment getShipment(String id) {
+        return em.find(Shipment.class, id);
+    }
     
 }

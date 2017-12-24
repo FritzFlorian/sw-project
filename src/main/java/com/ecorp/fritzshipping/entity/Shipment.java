@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class Shipment extends RandomUUIDEntity{
+public class Shipment extends RandomUUIDEntity {
     private int weight;
     private boolean pickup;
     

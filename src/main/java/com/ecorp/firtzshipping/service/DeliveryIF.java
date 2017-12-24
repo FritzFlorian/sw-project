@@ -14,4 +14,12 @@ public interface DeliveryIF {
      */
     public Shipment createShipment(Shipment shipment) 
             throws ShipmentException;
+    
+    /**
+     * Load an shipment with the given id.
+     * 
+     * @param id The id of the shipment to be loaded.
+     * @return The loaded shipment.
+     */
+    public Shipment getShipment(String id);
 }

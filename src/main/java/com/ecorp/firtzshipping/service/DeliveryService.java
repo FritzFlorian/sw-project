@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 @RequestScoped
@@ -65,7 +66,14 @@ public class DeliveryService implements DeliveryIF{
 
     @Override
     public Shipment getShipment(String id) {
-        return em.find(Shipment.class, id);
+        TypedQuery<Shipment> query =
+                em.createQuery("SELECT s "
+                             + "FROM Shipment s "
+                             + "LEFT JOIN FETCH s.trackingPoints "
+                             + "WHERE s.id =:id", Shipment.class);
+        query.setParameter("id", id);
+        
+        return query.getSingleResult();
     }
     
 }

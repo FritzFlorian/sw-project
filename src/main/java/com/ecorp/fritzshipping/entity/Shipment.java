@@ -2,6 +2,7 @@ package com.ecorp.fritzshipping.entity;
 
 import com.ecorp.fritzshipping.entity.util.RandomUUIDEntity;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Shipment extends RandomUUIDEntity {
     private ShipmentType type;
     
     @OneToMany
-    private Collection<TrackingPoint> trackingPoints;
+    private List<TrackingPoint> trackingPoints;
     @OneToMany
     private Collection<TrackingNotification> trackingNotifications;
     
@@ -48,7 +49,7 @@ public class Shipment extends RandomUUIDEntity {
     }
 
     public Shipment(int weight, boolean pickup, Address sender, 
-            Address recipient, Collection<TrackingPoint> trackingPoints, 
+            Address recipient, List<TrackingPoint> trackingPoints, 
             Collection<TrackingNotification> trackingNotifications,
             ShipmentType type) {
         this.weight = weight;
@@ -76,11 +77,11 @@ public class Shipment extends RandomUUIDEntity {
         this.pickup = pickup;
     }
 
-    public Collection<TrackingPoint> getTrackingPoints() {
+    public List<TrackingPoint> getTrackingPoints() {
         return trackingPoints;
     }
 
-    public void setTrackingPoints(Collection<TrackingPoint> trackingPoints) {
+    public void setTrackingPoints(List<TrackingPoint> trackingPoints) {
         this.trackingPoints = trackingPoints;
     }
 

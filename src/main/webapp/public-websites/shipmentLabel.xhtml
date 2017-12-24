@@ -7,7 +7,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>#{title}</title>
+        <title>Shipment Label - #{shipmentLabelModel.shipment.id}</title>
     </h:head>
     <h:body>
         <b:container>
@@ -56,7 +56,12 @@
                     </b:row>
                 </b:column>
                 <b:column tiny-screen="5" offset="1">
-                    <p:barcode type="qr" value="#{shipmentLabelModel.shipment.id}" width="100%"/>
+                    <b:row>
+                        <p:barcode type="qr" value="#{shipmentLabelModel.shipment.id}" width="100%"/>
+                    </b:row>
+                    <b:row class="text-center">
+                        #{shipmentLabelModel.shipment.id}
+                    </b:row>
                 </b:column>
             </b:row>
         </b:container>

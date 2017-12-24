@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Shipment Tracking - #{shipmentTrackingModel.shipment.id}</title>
+    </h:head>
+    <ui:composition template="/WEB-INF/template/baseTemplate.xhtml">
+        <ui:param name="title" value="Fritz Shipping"/>
+        <ui:param name="homeHref" value="#{request.contextPath}/index.xhtml"/>
+
+        <ui:define name="navContent">
+            <!-- No Navigation -->
+        </ui:define>
+        <ui:define name="content">
+            <h1>Shipment Tracking</h1>
+            <h2>Shipment-ID: #{shipmentTrackingModel.shipment.id}</h2>
+            
+            <b:panel title="Shipment Progress" collapsible="false">
+                <p>
+                    Your Shipment has to pass serval shipment steps before delivery.
+                    Below you will see all these steps and when they where finished.
+                </p>
+                <b:progressBar value="#{shipmentTrackingModel.progress}"/>
+                <ui:repeat value="#{shipmentTrackingModel.shipment.trackingPoints}"
+                             var="trackingPoint">
+                    <b:row>
+                        <b:column medium-screen="3">
+                            #{trackingPoint.type}
+                        </b:column>
+                        <b:column medium-screen="9">
+                            <c:if test="#{trackingPoint.finishedAt eq null}">
+                                Pending
+                            </c:if>
+                            <c:if test="#{not (trackingPoint.finishedAt eq null)}">
+                                Processed at #{trackingPoint.finishedAt}
+                            </c:if>
+                        </b:column>
+                    </b:row>
+                </ui:repeat>
+            </b:panel>
+            
+            <b:panel title="Register for Update Emails" collapsible="false">
+                <p>
+                    You can register your email address to receive updates
+                    about any changes of your packages shipment progress.
+                </p>
+                <p>
+                    Optionally we will only inform you when your shipment
+                    arrived and not for every single progress step.
+                </p>
+                <b:form>
+                    <b:inputText label="Email Address: "
+                                 value="#{shipmentTrackingModel.email}"
+                                 placeholder="register email for shipment update notifications"
+                                 required="true"/>
+                    <b:selectBooleanCheckbox value="#{shipmentTrackingModel.onlyLast}"
+                                             caption="Only Inform about Shipment arrivial."/>
+                    <b:commandButton value="Register for Shipment Progress Updates"
+                                     action="#{shipmentTrackingModel.registerForShipmentUpdates()}"/>
+                </b:form>
+            </b:panel>
+        </ui:define>
+    </ui:composition>
+</html>

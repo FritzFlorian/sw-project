@@ -59,6 +59,12 @@ public class OrderModel implements Serializable{
     }
     
     public String placeCurrentOrder() {
+        // This is an 'remote' order, so we assume that all shipments
+        // should be picked up from the customer.
+        for (Shipment shipment : shipmentsOfCurrentOrder) {
+            shipment.setPickup(true);
+        }
+        
         try {
             customerService.placeOrder(loginModel.getCurrentCustomer(), shipmentsOfCurrentOrder);
             newShipment = new Shipment();

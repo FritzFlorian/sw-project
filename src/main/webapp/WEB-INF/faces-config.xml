@@ -19,7 +19,8 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>logout</from-outcome>
-            <to-view-id>/customer-website/login.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/customer-website/login.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         
         <!-- Registration Navigation Cases -->

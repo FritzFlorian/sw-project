@@ -34,12 +34,10 @@
                             #{trackingPoint.type}
                         </b:column>
                         <b:column medium-screen="9">
-                            <c:if test="#{trackingPoint.finishedAt eq null}">
-                                Pending
-                            </c:if>
-                            <c:if test="#{not (trackingPoint.finishedAt eq null)}">
-                                Processed at #{trackingPoint.finishedAt}
-                            </c:if>
+                            <h:outputText value="Processed at #{trackingPoint.finishedAt}"
+                                          rendered="#{trackingPoint.finished}"/>
+                            <h:outputText value="Pending"
+                                          rendered="#{not trackingPoint.finished}"/>
                         </b:column>
                     </b:row>
                 </ui:repeat>

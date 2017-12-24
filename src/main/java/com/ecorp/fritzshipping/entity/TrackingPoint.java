@@ -39,6 +39,10 @@ public class TrackingPoint extends GeneratedLongIdEntity {
     public void setFinishedAt(Date finishedAt) {
         this.finishedAt = finishedAt;
     }
+    
+    public boolean isFinished() {
+        return this.finishedAt != null;
+    }
 
     public TrackingType getType() {
         return type;

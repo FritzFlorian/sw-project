@@ -37,26 +37,11 @@ public class OrderModel implements Serializable{
     }
     
     public List<Order> getAllOrders() {
-        // We explicitly load the orders on login.
-        // Instead of directly accessing them we still return them
-        // with this method, so we could add lazy loading later.
-        return loginModel.getCurrentCustomer().getOrders();
+        return customerService.getOrders(loginModel.getCurrentCustomer());
     }
     
     public List<Shipment> getShipmentsOfCurrentOrder() {
-        numberShipmentsOfCurrentOrder();
         return shipmentsOfCurrentOrder;
-    }
-    
-    /**
-     * Gives all current shipments generated/artificial
-     * primary IDs. This is needed to allow deletion of
-     * list elements and is only temporary.
-     */
-    private void numberShipmentsOfCurrentOrder() {
-        for (int i = 0; i < shipmentsOfCurrentOrder.size(); i++) {
-            shipmentsOfCurrentOrder.get(i).setId("artificial-id-" + i);
-        }
     }
     
     public String addShipmentToCurrentOrder() {

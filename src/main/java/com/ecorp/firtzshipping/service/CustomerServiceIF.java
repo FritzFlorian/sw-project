@@ -30,6 +30,13 @@ public interface CustomerServiceIF {
     public Order placeOrder(Customer customer, List<Shipment> shipments)
             throws ShipmentException;
     
+    /**
+     * Gets all orders of the given customer.
+     * 
+     * @param customer The customer to get the orders of.
+     * @return All orders by that customer.
+     */
+    public List<Order> getOrders(Customer customer);
     
     /**
      * Loads an order by id.

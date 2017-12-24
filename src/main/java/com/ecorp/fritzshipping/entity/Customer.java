@@ -2,6 +2,7 @@ package com.ecorp.fritzshipping.entity;
 
 import com.ecorp.fritzshipping.entity.util.GeneratedLongIdEntity;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -28,11 +29,13 @@ public class Customer extends GeneratedLongIdEntity {
     }
 
     public List<Order> getOrders() {
-        return orders;
+        return Collections.unmodifiableList(orders);
     }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    
+    public void addOrder(Order order) {
+        if (!orders.contains(order)) {
+            orders.add(order);
+        }
     }
 
     public long getBankAccountId() {

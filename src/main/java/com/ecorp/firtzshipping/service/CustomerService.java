@@ -35,7 +35,6 @@ public class CustomerService implements CustomerServiceIF{
         TypedQuery<Customer> query = 
                 em.createQuery("SELECT c "
                              + "FROM Customer c "
-                             + "LEFT JOIN FETCH c.orders "
                              + "WHERE c.email=:email and "
                              + "      c.password=:password", Customer.class);
         query.setParameter("email", unauthorizedCustomer.getEmail());
@@ -47,6 +46,19 @@ public class CustomerService implements CustomerServiceIF{
         } else {
             return null;
         }
+    }
+    
+    @Override
+    @Transactional
+    public List<Order> getOrders(Customer customer) {
+        TypedQuery<Order> query =
+                em.createQuery("Select o "
+                             + "FROM Order o "
+                             + "JOIN o.customer "
+                             + "WHERE o.customer.id=:customerId", Order.class);
+        query.setParameter("customerId", customer.getId());
+        
+        return query.getResultList();
     }
 
     @Override
@@ -62,9 +74,13 @@ public class CustomerService implements CustomerServiceIF{
         // TODO: Call Bank IF
         long paymentTransactionID = 0;
         
+        // Create and persist the order.
         Order newOrder = new Order(new Date(), paymentTransactionID, totalPrice,
                                    customer, storedShipments);
         em.persist(newOrder);
+        // We also need to update the customers collection here!
+        Customer loadedCustomer = em.find(Customer.class, customer.getId());
+        loadedCustomer.addOrder(newOrder);
         
         return newOrder;
     }

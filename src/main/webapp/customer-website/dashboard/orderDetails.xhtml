@@ -51,12 +51,12 @@
                         </b:dataTableColumn>
                         <b:dataTableColumn>
                             <f:facet name="header">Actions</f:facet>
-                            <b:button href="#{request.contextPath}/public-websites/shipmentLabel.xhtml?shipmentId=#{shipment.id}" 
+                            <b:button href="#{request.contextPath}/public-websites/shipmentLabel/#{shipment.id}" 
                                       target="#"
                                       value="Print Shipment Label"
                                       icon="print"/>
                             <br/>
-                            <b:button href="#{request.contextPath}/public-websites/shipmentTracking.xhtml?shipmentId=#{shipment.id}" 
+                            <b:button href="#{request.contextPath}/public-websites/shipmentTracking/#{shipment.id}" 
                                       target="#"
                                       value="Shipment Progress Tracking"
                                       icon="list"/>

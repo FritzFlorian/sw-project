@@ -1,6 +1,7 @@
 package com.ecorp.firtzshipping.service;
 
 import com.ecorp.fritzshipping.entity.Shipment;
+import com.ecorp.fritzshipping.entity.TrackingNotification;
 
 
 public interface DeliveryIF {
@@ -22,4 +23,13 @@ public interface DeliveryIF {
      * @return The loaded shipment.
      */
     public Shipment getShipment(String id);
+    
+    /**
+     * Register a new email address for updates on the shipment progress
+     * of a single shipment.
+     * 
+     * @param shipment The shipment to receive updates of.
+     * @param notification The notification target to be added to the shipment.
+     */
+    public void registerTrackingNotification(Shipment shipment, TrackingNotification notification);
 }

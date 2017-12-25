@@ -15,7 +15,7 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class ShipmentLabelModel {
-    @Inject @Param(name="shipmentId")
+    @Inject @Param(pathIndex=0)
     private String shipmentId;
     
     @Inject

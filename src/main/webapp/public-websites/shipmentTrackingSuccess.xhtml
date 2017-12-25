@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Shipment Tracking - Registration Success</title>
+    </h:head>
+    <ui:composition template="/WEB-INF/template/baseTemplate.xhtml">
+        <ui:param name="title" value="Fritz Shipping"/>
+        <ui:param name="homeHref" value="#{request.contextPath}/index.xhtml"/>
+
+        <ui:define name="navContent">
+            <!-- No Navigation -->
+        </ui:define>
+        <ui:define name="content">
+            <h1>Shipment Tracking</h1>
+            <h2>Successfully registered email '#{shipmentTrackingModel.email}' for update notifications on the shipment progress.</h2>
+            
+            <b:button value="Back to shipment tracking page"
+                      href="#{request.contextPath}/public-websites/shipmentTracking/#{shipmentTrackingModel.shipment.id}"/>
+        </ui:define>
+    </ui:composition>
+</html>

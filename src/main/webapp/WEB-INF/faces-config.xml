@@ -60,5 +60,15 @@
             <to-view-id>/customer-website/dashboard/orderDetails.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <description>Navigation rules for public websites.</description>
+        <from-view-id>/public-websites/*</from-view-id>
+        
+        <!-- Shipment Tracking -->
+        <navigation-case>
+            <from-outcome>update-registration-success</from-outcome>
+            <to-view-id>/public-websites/shipmentTrackingSuccess.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     
 </faces-config>

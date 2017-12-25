@@ -1,6 +1,7 @@
 package com.ecorp.firtzshipping.service;
 
 import com.ecorp.fritzshipping.entity.Shipment;
+import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
 import com.ecorp.fritzshipping.entity.TrackingType;
 import java.util.LinkedList;
@@ -65,6 +66,7 @@ public class DeliveryService implements DeliveryIF{
     }
 
     @Override
+    @Transactional
     public Shipment getShipment(String id) {
         TypedQuery<Shipment> query =
                 em.createQuery("SELECT s "
@@ -76,4 +78,11 @@ public class DeliveryService implements DeliveryIF{
         return query.getSingleResult();
     }
     
+    @Override
+    @Transactional
+    public void registerTrackingNotification(Shipment shipment, TrackingNotification notification) {
+        Shipment loadedShipment = em.find(Shipment.class, shipment.getId());
+        em.persist(notification);
+        loadedShipment.getTrackingNotifications().add(notification);
+    }
 }

@@ -1,0 +1,29 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- Need to pass an parameter 'shipment' -->
+    <p>Sender</p>
+    <ui:include src="/WEB-INF/views/addressForm.xhtml">
+        <ui:param name="address" value="#{shipment.sender}" />
+    </ui:include>
+    <p>Recipient</p>
+    <ui:include src="/WEB-INF/views/addressForm.xhtml">
+        <ui:param name="address" value="#{shipment.recipient}" />
+    </ui:include>
+                    
+    <b:selectOneMenu value="#{shipment.type}"
+                     label="Shipment Type"
+                     required="true">
+        <f:converter converterId="com.ecorp.fritzshipping.util.ShipmentTypeConverter"/>
+        <f:selectItems value="#{utilityModel.possibleShipmentTypes}"/>
+    </b:selectOneMenu>
+                    
+    <b:inputText label="Weight (in gramms):"
+                 value="#{shipment.weight}"
+                 placeholder="enter weight of shipment in gramms"
+                 required="true"/>
+   
+</ui:composition>

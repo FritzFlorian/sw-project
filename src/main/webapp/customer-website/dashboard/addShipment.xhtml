@@ -11,27 +11,10 @@
             <ui:define name="content">
                 <h1>Add Shipment to new Order</h1>
                 <b:form>
-                    <p>Sender</p>
-                    <ui:include src="/WEB-INF/views/addressForm.xhtml">
-                        <ui:param name="address" value="#{orderModel.newShipment.sender}" />
-                    </ui:include>
-                    <p>Recipient</p>
-                    <ui:include src="/WEB-INF/views/addressForm.xhtml">
-                        <ui:param name="address" value="#{orderModel.newShipment.recipient}" />
-                    </ui:include>
-                    
-                    <b:selectOneMenu value="#{orderModel.newShipment.type}"
-                                     label="Shipment Type"
-                                     required="true">
-                        <f:converter converterId="com.ecorp.fritzshipping.util.ShipmentTypeConverter"/>
-                        <f:selectItems value="#{orderModel.possibleShipmentTypes}"/>
-                    </b:selectOneMenu>
-                    
-                    <b:inputText label="Weight (in gramms):"
-                                 value="#{orderModel.newShipment.weight}"
-                                 placeholder="enter weight of shipment in gramms"
-                                 required="true"/>
-                    
+                    <ui:include src="/WEB-INF/views/shipmentForm.xhtml">
+                        <ui:param name="shipment" value="#{orderModel.newShipment}" />
+                    </ui:include> 
+                   
                     <b:commandButton value="Add Shipment" 
                                      action="#{orderModel.addShipmentToCurrentOrder()}"/>
                 </b:form>

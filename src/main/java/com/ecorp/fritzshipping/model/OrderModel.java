@@ -87,10 +87,6 @@ public class OrderModel implements Serializable{
     public Shipment getNewShipment() {
         return newShipment;
     }
-    
-    public Collection<ShipmentType> getPossibleShipmentTypes() {
-        return Arrays.asList(ShipmentType.values());
-    }
 
     public ShipmentException getLastException() {
         return lastException;

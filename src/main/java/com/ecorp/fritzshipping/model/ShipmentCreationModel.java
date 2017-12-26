@@ -32,7 +32,9 @@ public class ShipmentCreationModel implements Serializable {
     public void postConstruct() {
         // Conversation begins when a user visits the page with this model.
         // It will end after the shipment was created.
-        conversation.begin();
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
     }
     
     /**

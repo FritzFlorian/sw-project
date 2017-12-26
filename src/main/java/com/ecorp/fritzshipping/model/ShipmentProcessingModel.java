@@ -27,7 +27,9 @@ public class ShipmentProcessingModel implements Serializable {
     public void postConstruct() {
         // Processing one single shipment is a conversation.
         // This starts with the first request to the model.
-        conversation.begin();
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
     }
 
     public String getShipmentId() {

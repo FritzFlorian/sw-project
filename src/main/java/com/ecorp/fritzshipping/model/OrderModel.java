@@ -4,10 +4,7 @@ import com.ecorp.firtzshipping.service.CustomerServiceIF;
 import com.ecorp.firtzshipping.service.ShipmentException;
 import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
-import com.ecorp.fritzshipping.entity.ShipmentType;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
@@ -17,7 +14,7 @@ import javax.inject.Named;
 
 @Named
 @SessionScoped
-public class OrderModel implements Serializable{
+public class OrderModel implements Serializable {
     @Inject
     private CustomerServiceIF customerService;
     @Inject

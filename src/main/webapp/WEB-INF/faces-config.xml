@@ -76,6 +76,22 @@
         <description>Navigation rules for employee website.</description>
         <from-view-id>/employee-website/*</from-view-id>
         
+        <navigation-case>
+            <from-outcome>shipment-creation-success</from-outcome>
+            <to-view-id>/employee-website/confirmShipment.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>shipment-creation-error</from-outcome>
+            <to-view-id>/employee-website/createShipment.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>shipment-confirmed</from-outcome>
+            <to-view-id>/employee-website/shipmentConfirmed.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>shipment-canceled</from-outcome>
+            <to-view-id>/employee-website/shipmentCanceled.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
 </faces-config>

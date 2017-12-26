@@ -6,6 +6,7 @@
 package com.ecorp.fritzshipping.model;
 
 import com.ecorp.fritzshipping.entity.ShipmentType;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.enterprise.context.ApplicationScoped;
@@ -16,7 +17,7 @@ import javax.inject.Named;
  */
 @Named
 @ApplicationScoped
-public class UtilityModel {
+public class UtilityModel implements Serializable {
     public Collection<ShipmentType> getPossibleShipmentTypes() {
         return Arrays.asList(ShipmentType.values());
     }

@@ -9,10 +9,12 @@
     <body>
         <ui:composition template="/WEB-INF/template/employeeWebsiteTemplate.xhtml">
             <ui:define name="content">
-                <h1>Employee Website</h1>
+                <h1>Shipment Canceled</h1>
+                <p>Shipment successfully canceled.</p>
+
                 <b:form>
-                    <b:commandButton value="Create new Shipment"
-                                     action="/employee-website/createShipment.xhtml"/>
+                    <b:commandButton value="Back to Index"
+                                     action="/employee-website/index.xhtml"/>
                 </b:form>
             </ui:define>
         </ui:composition>

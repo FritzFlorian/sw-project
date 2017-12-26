@@ -5,25 +5,34 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html">
     <!-- Need to pass an parameter 'shipment' -->
-    <p>Sender</p>
-    <ui:include src="/WEB-INF/views/addressForm.xhtml">
-        <ui:param name="address" value="#{shipment.sender}" />
-    </ui:include>
-    <p>Recipient</p>
-    <ui:include src="/WEB-INF/views/addressForm.xhtml">
-        <ui:param name="address" value="#{shipment.recipient}" />
-    </ui:include>
-                    
-    <b:selectOneMenu value="#{shipment.type}"
+    <b:row>
+        <b:column medium-screen="6">
+            <b:panel title="Sender" collapsible="false">
+                <ui:include src="/WEB-INF/views/addressForm.xhtml">
+                    <ui:param name="address" value="#{shipment.sender}" />
+                </ui:include>
+            </b:panel>
+        </b:column>
+        <b:column medium-screen="6">
+            <b:panel title="Recipient" collapsible="false">
+                <ui:include src="/WEB-INF/views/addressForm.xhtml">
+                    <ui:param name="address" value="#{shipment.recipient}" />
+                </ui:include>
+            </b:panel>
+        </b:column>
+    </b:row>
+
+    <b:panel title="General" collapsible="false">
+        <b:selectOneMenu value="#{shipment.type}"
                      label="Shipment Type"
                      required="true">
-        <f:converter converterId="com.ecorp.fritzshipping.util.ShipmentTypeConverter"/>
-        <f:selectItems value="#{utilityModel.possibleShipmentTypes}"/>
-    </b:selectOneMenu>
-                    
-    <b:inputText label="Weight (in gramms):"
-                 value="#{shipment.weight}"
-                 placeholder="enter weight of shipment in gramms"
-                 required="true"/>
-   
+            <f:converter converterId="com.ecorp.fritzshipping.util.ShipmentTypeConverter"/>
+            <f:selectItems value="#{utilityModel.possibleShipmentTypes}"/>
+        </b:selectOneMenu>
+
+        <b:inputText label="Weight (in gramms):"
+                     value="#{shipment.weight}"
+                     placeholder="enter weight of shipment in gramms"
+                     required="true"/>
+    </b:panel>
 </ui:composition>

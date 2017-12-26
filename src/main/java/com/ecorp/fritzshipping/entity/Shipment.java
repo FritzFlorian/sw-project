@@ -38,9 +38,9 @@ public class Shipment extends RandomUUIDEntity {
     
     private ShipmentType type;
     
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private List<TrackingPoint> trackingPoints;
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private Collection<TrackingNotification> trackingNotifications;
     
     public Shipment() {

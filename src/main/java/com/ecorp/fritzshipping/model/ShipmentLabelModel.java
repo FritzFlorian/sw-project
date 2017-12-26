@@ -7,6 +7,7 @@ package com.ecorp.fritzshipping.model;
 
 import com.ecorp.firtzshipping.service.DeliveryIF;
 import com.ecorp.fritzshipping.entity.Shipment;
+import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import org.omnifaces.cdi.Param;
@@ -14,7 +15,7 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
-public class ShipmentLabelModel {
+public class ShipmentLabelModel implements Serializable {
     @Inject @Param(pathIndex=0)
     private String shipmentId;
     

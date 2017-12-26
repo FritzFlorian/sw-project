@@ -2,6 +2,7 @@ package com.ecorp.firtzshipping.service;
 
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
+import com.ecorp.fritzshipping.entity.TrackingPoint;
 
 
 public interface DeliveryIF {
@@ -32,4 +33,27 @@ public interface DeliveryIF {
      * @param notification The notification target to be added to the shipment.
      */
     public void registerTrackingNotification(Shipment shipment, TrackingNotification notification);
+    
+    /**
+     * Gets the next tracking point that has to be processed.
+     * 
+     * @param shipment The shipment of which to get the next tracking point.
+     * @return The next tracking point to be processed or null if there is none.
+     */
+    public TrackingPoint getNextTrackingPoint(Shipment shipment);
+    
+    /**
+     * Marks the given tracking point as processed after the
+     * required work has been done.
+     * 
+     * @param trackingPoint The tracking point to be marked as processed.
+     */
+    public void processTrackingPoint(TrackingPoint trackingPoint);
+    
+    /**
+     * Deletes a shipment and all it's associated entities.
+     * 
+     * @param shipment The shipment to be deleted.
+     */
+    public void deleteShipment(Shipment shipment);
 }

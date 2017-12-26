@@ -4,6 +4,7 @@ import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
 import com.ecorp.fritzshipping.entity.TrackingType;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -84,5 +85,34 @@ public class DeliveryService implements DeliveryIF{
         Shipment loadedShipment = em.find(Shipment.class, shipment.getId());
         em.persist(notification);
         loadedShipment.getTrackingNotifications().add(notification);
+    }
+
+    @Override
+    @Transactional
+    public TrackingPoint getNextTrackingPoint(Shipment shipment) {
+        TypedQuery<TrackingPoint> query = em.createNamedQuery("TrackingPoint.nextForShipment", TrackingPoint.class);
+        query.setParameter("shipmentId", shipment.getId());
+        query.setMaxResults(1);
+        
+        List<TrackingPoint> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void processTrackingPoint(TrackingPoint trackingPoint) {
+        TrackingPoint loadedTrackingPoint = em.find(TrackingPoint.class, trackingPoint.getId());
+        loadedTrackingPoint.setFinishedAt(new Date());
+    }
+
+    @Override
+    @Transactional
+    public void deleteShipment(Shipment shipment) {
+        Shipment loadedShipment = em.find(Shipment.class, shipment.getId());
+        em.remove(loadedShipment);
     }
 }

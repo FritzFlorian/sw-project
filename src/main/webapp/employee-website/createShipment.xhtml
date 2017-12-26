@@ -9,10 +9,15 @@
     <body>
         <ui:composition template="/WEB-INF/template/employeeWebsiteTemplate.xhtml">
             <ui:define name="content">
-                <h1>Employee Website</h1>
+                <h1>Create new Shipment</h1>
+                <b:alert severity="danger" rendered="#{shipmentCreationModel.lastException ne null}"><strong>Error with placing order!</strong> #{shipmentCreationModel.lastException.message}</b:alert>
                 <b:form>
-                    <b:commandButton value="Create new Shipment"
-                                     action="/employee-website/createShipment.xhtml"/>
+                    <ui:include src="/WEB-INF/views/shipmentForm.xhtml">
+                        <ui:param name="shipment" value="#{shipmentCreationModel.shipment}" />
+                    </ui:include> 
+                   
+                    <b:commandButton value="Add Shipment" 
+                                     action="#{shipmentCreationModel.createShipment()}"/>
                 </b:form>
             </ui:define>
         </ui:composition>

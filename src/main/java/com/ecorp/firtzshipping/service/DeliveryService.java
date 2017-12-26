@@ -115,4 +115,13 @@ public class DeliveryService implements DeliveryIF{
         Shipment loadedShipment = em.find(Shipment.class, shipment.getId());
         em.remove(loadedShipment);
     }
+
+    @Override
+    @Transactional
+    public List<Shipment> getShipmentsReadyForPickup() {
+        TypedQuery<Shipment> query = em.createNamedQuery("Shipment.readyForPickup", Shipment.class);
+        return query.getResultList();
+    }
+    
+    
 }

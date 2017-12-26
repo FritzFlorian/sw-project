@@ -3,6 +3,7 @@ package com.ecorp.firtzshipping.service;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
+import java.util.List;
 
 
 public interface DeliveryIF {
@@ -56,4 +57,11 @@ public interface DeliveryIF {
      * @param shipment The shipment to be deleted.
      */
     public void deleteShipment(Shipment shipment);
+    
+    /**
+     * Finds all shipments that have to be picked up at the customers address.
+     * 
+     * @return The shipments to be picked up.
+     */
+    public List<Shipment> getShipmentsReadyForPickup();
 }

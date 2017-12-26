@@ -8,10 +8,13 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@NamedQuery(name="Shipment.readyForPickup",
+            query="Select s From Shipment s JOIN s.trackingPoints track WHERE track.type=com.ecorp.fritzshipping.entity.TrackingType.PICKUP AND track.finishedAt is null")
 @XmlRootElement
 public class Shipment extends RandomUUIDEntity {
     private int weight;

@@ -8,11 +8,31 @@
 
     <body>
         <ui:composition template="/WEB-INF/template/employeeWebsiteTemplate.xhtml">
+            <ui:define name="headerContent">
+                <h:outputScript name="js/instascan.min.js" />
+            </ui:define>
+            
             <ui:define name="content">
-                <h1>Employee Website</h1>
-                <b:form>
-                    
+                <h1>Process Shipment</h1>
+                <p>
+                    Pleas scan the OR-code on the shipment label to
+                    process this shipment. <br/>
+                    Alternatively enter the shipment 
+                    id below and click process. <br/>
+                    The QR scanner wont work in the google chrome browser.
+                </p>
+                <video id="preview"></video>
+                <b:form id="shipmentForm">
+                    <b:inputText value="#{shipmentProcessingModel.shipmentId}"
+                                 label="Shipment ID"
+                                 required="true"
+                                 id="shipmentId"/>
+                    <b:commandButton value="Start Processing Shipment"
+                                     action="#{shipmentProcessingModel.startProcessingShipment()}"
+                                     id="submit"/>
                 </b:form>
+
+                <h:outputScript name="js/qrScanner.js" />
             </ui:define>
         </ui:composition>
 

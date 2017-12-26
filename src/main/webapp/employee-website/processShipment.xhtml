@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+        <ui:composition template="/WEB-INF/template/employeeWebsiteTemplate.xhtml">
+            <ui:define name="content">
+                <h1>Process Shipment</h1>
+                <p>
+                    Processing shipment with id '#{shipmentProcessingModel.shipment.id}'.
+                </p>
+                <c:if test='#{not (shipmentProcessingModel.nextTrackingPoint eq null)}'>
+                    <p>
+                        Please make sure that the following delivery step was performed: <br/>
+                        <b>#{shipmentProcessingModel.nextTrackingPoint.type}</b><br/>
+                        When finished click 'Shipment Processed' to continue processing other shipments.
+                    </p>
+                    <b:form>
+                        <b:commandButton value="Shipment Processed"
+                                         action="#{shipmentProcessingModel.finishProcessingShipment()}"/>
+                        <b:commandButton value="Abort Processing"
+                                         action="#{shipmentProcessingModel.skipProcessingShipment()}"/>
+                    </b:form>
+                </c:if>
+                <c:if test='#{shipmentProcessingModel.nextTrackingPoint eq null}'>
+                    <p>
+                        Shipment was already delivered, no more steps to perform.<br/>
+                        Please return to processing other shipments.
+                    </p>
+                    <b:form>
+                        <b:commandButton value="Back to Scan"
+                                         action="#{shipmentProcessingModel.skipProcessingShipment()}"/>
+                    </b:form>
+                </c:if>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -76,6 +76,7 @@
         <description>Navigation rules for employee website.</description>
         <from-view-id>/employee-website/*</from-view-id>
         
+        <!-- Shipment Creation -->
         <navigation-case>
             <from-outcome>shipment-creation-success</from-outcome>
             <to-view-id>/employee-website/confirmShipment.xhtml</to-view-id>
@@ -91,6 +92,22 @@
         <navigation-case>
             <from-outcome>shipment-canceled</from-outcome>
             <to-view-id>/employee-website/shipmentCanceled.xhtml</to-view-id>
+        </navigation-case>
+        
+        <!-- Shipment Processing -->
+        <navigation-case>
+            <from-outcome>start-processing-shipment</from-outcome>
+            <to-view-id>/employee-website/processShipment.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>finish-processing-shipment</from-outcome>
+            <to-view-id>/employee-website/scanQRCode.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>skip-processing-shipment</from-outcome>
+            <to-view-id>/employee-website/scanQRCode.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
     

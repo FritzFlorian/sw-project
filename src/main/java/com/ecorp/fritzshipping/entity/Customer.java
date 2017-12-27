@@ -1,6 +1,7 @@
 package com.ecorp.fritzshipping.entity;
 
 import com.ecorp.fritzshipping.entity.util.SingleIdEntity;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.Embedded;
@@ -36,6 +37,7 @@ public class Customer extends SingleIdEntity<String> {
     public Customer() {
         // Empty Default Constructor
         this.address = new Address();
+        this.orders = new ArrayList<>();
     }
 
     public List<Order> getOrders() {

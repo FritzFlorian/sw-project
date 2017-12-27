@@ -82,7 +82,16 @@ public class CustomerService implements CustomerIF{
         int totalPrice = 0;
         List<Shipment> storedShipments = new LinkedList<>();
         for (Shipment shipment : shipments) {
-            storedShipments.add(deliveryService.createShipment(shipment));
+            // Only use attributes that we want to be able to be set
+            // from our caller.
+            Shipment toCreate = new Shipment();
+            toCreate.setPickup(shipment.isPickup());
+            toCreate.setSender(shipment.getSender());
+            toCreate.setRecipient(shipment.getRecipient());
+            toCreate.setType(shipment.getType());
+            toCreate.setWeight(shipment.getWeight());
+            
+            storedShipments.add(deliveryService.createShipment(toCreate));
             totalPrice += shipment.getPrice();
         }
         

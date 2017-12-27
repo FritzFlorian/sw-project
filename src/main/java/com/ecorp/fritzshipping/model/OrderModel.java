@@ -1,6 +1,6 @@
 package com.ecorp.fritzshipping.model;
 
-import com.ecorp.firtzshipping.service.ShipmentException;
+import com.ecorp.fritzshipping.service.ShipmentException;
 import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
 import java.io.Serializable;
@@ -9,7 +9,7 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import com.ecorp.firtzshipping.service.CustomerIF;
+import com.ecorp.fritzshipping.service.CustomerIF;
 
 
 @Named

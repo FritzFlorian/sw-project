@@ -6,7 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import com.ecorp.firtzshipping.service.CustomerIF;
+import com.ecorp.fritzshipping.service.CustomerIF;
 
 @Named
 @SessionScoped

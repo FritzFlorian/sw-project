@@ -1,6 +1,6 @@
 package com.ecorp.fritzshipping.model;
 
-import com.ecorp.firtzshipping.service.DeliveryIF;
+import com.ecorp.fritzshipping.service.DeliveryIF;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
 import java.io.Serializable;

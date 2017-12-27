@@ -1,4 +1,4 @@
-package com.ecorp.firtzshipping.service;
+package com.ecorp.fritzshipping.service;
 
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;

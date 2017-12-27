@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 
 @RequestScoped
-@WebService(serviceName="CustomerSevice", portName="CustomerPort")
+@WebService(serviceName="CustomerService", portName="CustomerPort")
 public class CustomerService implements CustomerIF{
 
     @PersistenceContext

@@ -3,7 +3,6 @@ package com.ecorp.fritzshipping.model;
 import com.ecorp.firtzshipping.service.DeliveryIF;
 import com.ecorp.firtzshipping.service.ShipmentException;
 import com.ecorp.fritzshipping.entity.Shipment;
-import com.ecorp.fritzshipping.entity.TrackingPoint;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -62,6 +61,9 @@ public class ShipmentCreationModel implements Serializable {
      */
     public String confirmShipment() {
         deliveryService.processTrackingPoint(shipment.getTrackingPoints().get(0));
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
         
         return "shipment-confirmed";
     }
@@ -75,7 +77,9 @@ public class ShipmentCreationModel implements Serializable {
      */
     public String cancelShipment() {
         deliveryService.deleteShipment(shipment);
-        conversation.end();
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
         
         return "shipment-canceled";
     }

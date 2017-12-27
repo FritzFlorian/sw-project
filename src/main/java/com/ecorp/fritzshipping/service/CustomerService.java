@@ -3,6 +3,8 @@ package com.ecorp.fritzshipping.service;
 import com.ecorp.fritzshipping.entity.Customer;
 import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
+import com.ecorp.fritzshipping.service.external.MailHelperIF;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,21 +21,23 @@ import org.apache.logging.log4j.Logger;
 
 @RequestScoped
 @WebService(serviceName="CustomerService", portName="CustomerPort")
-public class CustomerService implements CustomerIF{
-
+public class CustomerService implements CustomerIF, Serializable {
     @PersistenceContext
     private EntityManager em;
     @Inject
     private DeliveryIF deliveryService;
+    @Inject
+    private MailHelperIF mailHelperService;
     
     @Inject
     private Logger logger;
-
+    
     @Override
     @Transactional
     @WebMethod(exclude=true)
     public Customer createCustomer(Customer newCustomer) {
         em.persist(newCustomer);
+        mailHelperService.sendRegistrationMail(newCustomer);
         
         logger.info("New customer with email {} registered.", newCustomer.getEmail());
         return newCustomer;

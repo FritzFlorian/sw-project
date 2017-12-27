@@ -4,6 +4,7 @@ import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
 import com.ecorp.fritzshipping.entity.TrackingType;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +18,7 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.Logger;
 
 @RequestScoped
-public class DeliveryService implements DeliveryIF{
+public class DeliveryService implements DeliveryIF, Serializable {
     @PersistenceContext
     private EntityManager em;
     

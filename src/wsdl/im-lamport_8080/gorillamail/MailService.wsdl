@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://services.gorillamail.ecorp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="MailServiceService" targetNamespace="http://services.gorillamail.ecorp.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://services.gorillamail.ecorp.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://services.gorillamail.ecorp.com/">
+  <xs:element name="header" type="tns:header"/>
+  <xs:element name="mail" type="tns:mail"/>
+  <xs:element name="sendMail" type="tns:sendMail"/>
+  <xs:element name="sendMailResponse" type="tns:sendMailResponse"/>
+  <xs:element name="template" type="tns:template"/>
+  <xs:element name="user" type="tns:user"/>
+  <xs:element name="variable" type="tns:variable"/>
+  <xs:complexType name="sendMail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:user"/>
+      <xs:element minOccurs="0" name="arg1" type="tns:mail"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="user">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="email" type="xs:string"/>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType abstract="true" name="abstractLongEntity">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mail">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element name="ad" type="xs:boolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="variables" nillable="true" type="tns:variable"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="headers" nillable="true" type="tns:header"/>
+          <xs:element minOccurs="0" name="template" type="tns:template"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="variable">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="header">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="template">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="body" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="sendMailResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:mail"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MailException" type="tns:MailException"/>
+  <xs:complexType name="MailException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendMail">
+    <wsdl:part element="tns:sendMail" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendMailResponse">
+    <wsdl:part element="tns:sendMailResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MailException">
+    <wsdl:part element="tns:MailException" name="MailException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MailService">
+    <wsdl:operation name="sendMail">
+      <wsdl:input message="tns:sendMail" name="sendMail">
+    </wsdl:input>
+      <wsdl:output message="tns:sendMailResponse" name="sendMailResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:MailException" name="MailException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MailServiceServiceSoapBinding" type="tns:MailService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendMail">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendMail">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendMailResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="MailException">
+        <soap:fault name="MailException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MailServiceService">
+    <wsdl:port binding="tns:MailServiceServiceSoapBinding" name="MailServicePort">
+      <soap:address location="http://im-lamport:8080/gorillamail/MailService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

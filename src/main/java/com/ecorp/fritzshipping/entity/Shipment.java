@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -44,6 +46,7 @@ public class Shipment extends RandomUUIDEntity {
     })
     private Address recipient;
     
+    @Enumerated(EnumType.STRING)
     private ShipmentType type;
     
     // Orphal removal makes sense on both, as it makes

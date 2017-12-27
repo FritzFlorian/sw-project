@@ -1,12 +1,12 @@
 package com.ecorp.fritzshipping.model;
 
-import com.ecorp.firtzshipping.service.CustomerServiceIF;
 import com.ecorp.fritzshipping.entity.Customer;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import com.ecorp.firtzshipping.service.CustomerIF;
 
 @Named
 @SessionScoped
@@ -15,7 +15,7 @@ public class LoginModel implements Serializable{
     private Customer loginScreenCustomer;
     
     @Inject
-    private CustomerServiceIF customerService;
+    private CustomerIF customerService;
     
     public LoginModel() {
         this.currentCustomer = null;

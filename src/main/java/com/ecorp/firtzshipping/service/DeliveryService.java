@@ -9,17 +9,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.apache.logging.log4j.Logger;
 
 @RequestScoped
 public class DeliveryService implements DeliveryIF{
     @PersistenceContext
     private EntityManager em;
     
-    private Random rand = new Random(); 
+    private final Random rand = new Random(); 
+    
+    @Inject
+    private Logger logger;
     
     @Override
     @Transactional
@@ -37,6 +42,7 @@ public class DeliveryService implements DeliveryIF{
         // the cascade should now persist them together with the shipment.
         em.persist(shipment);
         
+        logger.debug("Shipment Created.");
         return shipment;
     }
     

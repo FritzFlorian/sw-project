@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.apache.logging.log4j.Logger;
 
 
 @RequestScoped
@@ -21,11 +22,16 @@ public class CustomerService implements CustomerServiceIF{
     private EntityManager em;
     @Inject
     private DeliveryIF deliveryService;
+    
+    @Inject
+    private Logger logger;
 
     @Override
     @Transactional
     public Customer createCustomer(Customer newCustomer) {
         em.persist(newCustomer);
+        
+        logger.info("New customer with email {} registered.", newCustomer.getEmail());
         return newCustomer;
     }
 
@@ -42,8 +48,10 @@ public class CustomerService implements CustomerServiceIF{
         
         List<Customer>foundCustomers = query.getResultList();
         if (foundCustomers.size() > 0) {
+            logger.debug("Login Success.");
             return foundCustomers.get(0);
         } else {
+            logger.debug("Login Failed.");
             return null;
         }
     }
@@ -82,6 +90,7 @@ public class CustomerService implements CustomerServiceIF{
         Customer loadedCustomer = em.find(Customer.class, customer.getId());
         loadedCustomer.addOrder(newOrder);
         
+        logger.info("New order placed ({}).", newOrder.getId());
         return newOrder;
     }
 

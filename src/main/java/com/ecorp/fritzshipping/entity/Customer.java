@@ -1,24 +1,27 @@
 package com.ecorp.fritzshipping.entity;
 
-import com.ecorp.fritzshipping.entity.util.GeneratedLongIdEntity;
-import java.util.Collection;
+import com.ecorp.fritzshipping.entity.util.SingleIdEntity;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class Customer extends GeneratedLongIdEntity {
+public class Customer extends SingleIdEntity<String> {
+    // Use the email as ID, as it uniquly identifies customer accounts.
+    // We use the single id entity by simply returning the email in
+    // the getId() method.
+    @Id
+    private String email;
+    
     @OneToMany(mappedBy="customer")
     private List<Order> orders;
     
     private long bankAccountId;
-    @Column(unique=true)
-    private String email;
     private String password;
     @Embedded
     private Address address;
@@ -69,5 +72,9 @@ public class Customer extends GeneratedLongIdEntity {
     public void setAddress(Address address) {
         this.address = address;
     }
-    
+
+    @Override
+    public String getId() {
+        return this.email;
+    }
 }

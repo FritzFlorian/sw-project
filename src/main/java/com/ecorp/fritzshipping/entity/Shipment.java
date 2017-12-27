@@ -11,12 +11,16 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @NamedQuery(name="Shipment.readyForPickup",
             query="Select s From Shipment s JOIN s.trackingPoints track WHERE track.type=com.ecorp.fritzshipping.entity.TrackingType.PICKUP AND track.finishedAt is null")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Shipment extends RandomUUIDEntity {
     private int weight;
     private boolean pickup;
@@ -47,8 +51,10 @@ public class Shipment extends RandomUUIDEntity {
     // We will use cascading for persisting only on one of two
     // to test out the difference it makes to using the relation.
     // (See DeliveryService for the example usages)
+    @XmlTransient
     @OneToMany(orphanRemoval = true, cascade=CascadeType.PERSIST)
     private List<TrackingPoint> trackingPoints;
+    @XmlTransient
     @OneToMany(orphanRemoval = true)
     private Collection<TrackingNotification> trackingNotifications;
     

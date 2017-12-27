@@ -9,10 +9,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Table(name = "shipment_order")
 public class Order extends GeneratedLongIdEntity {
     @Temporal(TemporalType.TIMESTAMP)

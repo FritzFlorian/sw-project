@@ -1,12 +1,17 @@
 package com.ecorp.fritzshipping.entity;
 
-import com.ecorp.fritzshipping.entity.util.GeneratedLongIdEntity;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Embeddable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Embeddable
-public class Address{
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)		
+public class Address implements Serializable {
     private String addressee;
     private String street;
     private String houseNumber;

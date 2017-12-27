@@ -13,12 +13,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQuery(name="TrackingPoint.nextForShipment",
             query="SELECT track FROM Shipment s JOIN s.trackingPoints track WHERE s.id=:shipmentId AND track.finishedAt is null ORDER BY track.id ASC")
-@XmlRootElement
 public class TrackingPoint extends GeneratedLongIdEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishedAt;

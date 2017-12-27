@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -16,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 
 @RequestScoped
+@WebService
 public class CustomerService implements CustomerServiceIF{
 
     @PersistenceContext
@@ -28,6 +31,7 @@ public class CustomerService implements CustomerServiceIF{
 
     @Override
     @Transactional
+    @WebMethod(exclude=true)
     public Customer createCustomer(Customer newCustomer) {
         em.persist(newCustomer);
         
@@ -37,6 +41,7 @@ public class CustomerService implements CustomerServiceIF{
 
     @Override
     @Transactional
+    @WebMethod(exclude=true)
     public Customer login(Customer unauthorizedCustomer) {
         TypedQuery<Customer> query = 
                 em.createQuery("SELECT c "
@@ -58,6 +63,7 @@ public class CustomerService implements CustomerServiceIF{
     
     @Override
     @Transactional
+    @WebMethod(exclude=true)
     public List<Order> getOrders(Customer customer) {
         TypedQuery<Order> query =
                 em.createQuery("Select o "
@@ -71,6 +77,7 @@ public class CustomerService implements CustomerServiceIF{
 
     @Override
     @Transactional
+    @WebMethod
     public Order placeOrder(Customer customer, List<Shipment> shipments) throws ShipmentException {
         int totalPrice = 0;
         List<Shipment> storedShipments = new LinkedList<>();
@@ -96,6 +103,7 @@ public class CustomerService implements CustomerServiceIF{
 
     @Override
     @Transactional
+    @WebMethod(exclude=true)
     public Order getOrder(long id) {
         TypedQuery<Order> query = 
                 em.createQuery("SELECT o "

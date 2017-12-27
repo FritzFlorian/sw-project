@@ -7,10 +7,14 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Customer extends SingleIdEntity<String> {
     // Use the email as ID, as it uniquly identifies customer accounts.
     // We use the single id entity by simply returning the email in
@@ -19,10 +23,13 @@ public class Customer extends SingleIdEntity<String> {
     private String email;
     
     @OneToMany(mappedBy="customer")
+    @XmlTransient
     private List<Order> orders;
     
+    @XmlTransient
     private long bankAccountId;
     private String password;
+    
     @Embedded
     private Address address;
     

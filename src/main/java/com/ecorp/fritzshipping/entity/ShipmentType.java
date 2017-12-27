@@ -1,9 +1,12 @@
 package com.ecorp.fritzshipping.entity;
 
+import javax.xml.bind.annotation.XmlEnum;
+
 /**
  * Different types of shipments have different restrictions,
  * costs etc.
  */
+@XmlEnum(String.class)
 public enum ShipmentType {
     LETTER,
     SMALL_PARCEL,

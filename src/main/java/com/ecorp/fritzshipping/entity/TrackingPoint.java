@@ -30,8 +30,8 @@ public class TrackingPoint extends GeneratedLongIdEntity {
         // Empty Default Constructor
     }
 
-    public TrackingPoint(Date finishedAt, TrackingType type) {
-        this.finishedAt = finishedAt;
+    public TrackingPoint(TrackingType type) {
+        this.finishedAt = null;
         this.type = type;
     }
 

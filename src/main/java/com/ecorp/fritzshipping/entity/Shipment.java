@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -41,7 +42,12 @@ public class Shipment extends RandomUUIDEntity {
     
     private ShipmentType type;
     
-    @OneToMany(orphanRemoval = true)
+    // Orphal removal makes sense on both, as it makes
+    // deleting shipments trivial.
+    // We will use cascading for persisting only on one of two
+    // to test out the difference it makes to using the relation.
+    // (See DeliveryService for the example usages)
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.PERSIST)
     private List<TrackingPoint> trackingPoints;
     @OneToMany(orphanRemoval = true)
     private Collection<TrackingNotification> trackingNotifications;

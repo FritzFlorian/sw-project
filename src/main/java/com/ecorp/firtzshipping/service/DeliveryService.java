@@ -29,10 +29,13 @@ public class DeliveryService implements DeliveryIF{
             throw new ShipmentException(shipment, "Shipment is too heavy!");
         }
         
-        em.persist(shipment);
         // Plan the route for the shipment and persist it.
         // Again this is simplified business logic.
         planRouteForShipment(shipment);
+        // Good example of the CascadeType.Persist on the trackingPoints.
+        // We added them to the shipment WITHOUT persisting them, but
+        // the cascade should now persist them together with the shipment.
+        em.persist(shipment);
         
         return shipment;
     }
@@ -43,28 +46,22 @@ public class DeliveryService implements DeliveryIF{
         
         // Start with pickup vs hand in
         if (shipment.isPickup()) {
-            trackingPoints.add(createTrackingPoint(TrackingType.PICKUP));
+            trackingPoints.add(new TrackingPoint(TrackingType.PICKUP));
         } else {
-            trackingPoints.add(createTrackingPoint(TrackingType.HAND_IN));
+            trackingPoints.add(new TrackingPoint(TrackingType.HAND_IN));
         }
         
         // Add some random intermidiate steps
         for (int i = 0; i < rand.nextInt(2) + 1; i++) {
-            trackingPoints.add(createTrackingPoint(TrackingType.PACKAGE_CENTER));
+            trackingPoints.add(new TrackingPoint(TrackingType.PACKAGE_CENTER));
         }
         
         // Finally we deliver the shipment
-        trackingPoints.add(createTrackingPoint(TrackingType.DELIVERY));
+        trackingPoints.add(new TrackingPoint(TrackingType.DELIVERY));
         
         shipment.setTrackingPoints(trackingPoints);
     }
     
-    @Transactional
-    private TrackingPoint createTrackingPoint(TrackingType type) {
-        TrackingPoint newPoint = new TrackingPoint(null, type);
-        em.persist(newPoint);
-        return newPoint;
-    }
 
     @Override
     @Transactional
@@ -82,6 +79,9 @@ public class DeliveryService implements DeliveryIF{
     @Override
     @Transactional
     public void registerTrackingNotification(Shipment shipment, TrackingNotification notification) {
+        // Here we do not use CascadeType.Persist, thus we have to
+        // manually persist the notification and then add it to the
+        // attatched shipment's notifications.
         Shipment loadedShipment = em.find(Shipment.class, shipment.getId());
         em.persist(notification);
         loadedShipment.getTrackingNotifications().add(notification);

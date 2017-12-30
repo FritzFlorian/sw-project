@@ -13,14 +13,13 @@ import com.ecorp.gorillamail.services.User;
 import com.ecorp.gorillamail.services.Variable;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.xml.ws.WebServiceRef;
 import org.apache.logging.log4j.Logger;
 
-// Go for dependent, as webservices are not thread save.
-@Dependent
+@ApplicationScoped
 @Alternative
 public class MailHelperService implements MailHelperIF, Serializable {
     // Not really 'nice', but good enoug for our purposes.

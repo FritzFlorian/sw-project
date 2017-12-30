@@ -44,12 +44,14 @@ public class OrderModel implements Serializable {
     public String addShipmentToCurrentOrder() {
         shipmentsOfCurrentOrder.add(newShipment);
         newShipment = new Shipment();
+        lastException = null;
         
         return "shipment-added";
     }
     
     public String cancelCurrentOrder() {
         newShipment = new Shipment();
+        lastException = null;
         shipmentsOfCurrentOrder.clear();
         
         return "order-canceled";
@@ -77,6 +79,7 @@ public class OrderModel implements Serializable {
     
     public String removeShipmentFromCurrentOrder(Shipment shipment) {
         shipmentsOfCurrentOrder.remove(shipment);
+        lastException = null;
         
         return "shipment-removed";
     }

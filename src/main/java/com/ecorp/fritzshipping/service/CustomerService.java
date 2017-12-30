@@ -44,7 +44,6 @@ public class CustomerService implements CustomerIF, Serializable {
     }
 
     @Override
-    @Transactional
     @WebMethod(exclude=true)
     public Customer login(Customer unauthorizedCustomer) {
         TypedQuery<Customer> query = 
@@ -66,7 +65,6 @@ public class CustomerService implements CustomerIF, Serializable {
     }
     
     @Override
-    @Transactional
     @WebMethod(exclude=true)
     public List<Order> getOrders(Customer customer) {
         TypedQuery<Order> query =
@@ -83,6 +81,11 @@ public class CustomerService implements CustomerIF, Serializable {
     @Transactional
     @WebMethod
     public Order placeOrder(Customer customer, List<Shipment> shipments) throws ShipmentException {
+        Customer loadedCustomer = login(customer);
+        if (customer ==  null) {
+            throw new IllegalArgumentException("Ivalid Customer!");
+        }
+        
         int totalPrice = 0;
         List<Shipment> storedShipments = new LinkedList<>();
         for (Shipment shipment : shipments) {
@@ -107,7 +110,6 @@ public class CustomerService implements CustomerIF, Serializable {
                                    customer, storedShipments);
         em.persist(newOrder);
         // We also need to update the customers collection here!
-        Customer loadedCustomer = em.find(Customer.class, customer.getId());
         loadedCustomer.addOrder(newOrder);
         
         logger.info("New order placed ({}).", newOrder.getId());
@@ -115,7 +117,6 @@ public class CustomerService implements CustomerIF, Serializable {
     }
 
     @Override
-    @Transactional
     @WebMethod(exclude=true)
     public Order getOrder(long id) {
         TypedQuery<Order> query = 

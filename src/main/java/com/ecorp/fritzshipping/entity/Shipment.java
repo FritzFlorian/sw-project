@@ -1,8 +1,11 @@
 package com.ecorp.fritzshipping.entity;
 
 import com.ecorp.fritzshipping.entity.util.RandomUUIDEntity;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -59,16 +62,18 @@ public class Shipment extends RandomUUIDEntity {
     private List<TrackingPoint> trackingPoints;
     @XmlTransient
     @OneToMany(orphanRemoval = true)
-    private Collection<TrackingNotification> trackingNotifications;
+    private Set<TrackingNotification> trackingNotifications;
     
     public Shipment() {
         this.sender = new Address();
         this.recipient = new Address();
+        this.trackingPoints = new ArrayList<>();
+        this.trackingNotifications = new HashSet<>();
     }
 
     public Shipment(int weight, boolean pickup, Address sender, 
             Address recipient, List<TrackingPoint> trackingPoints, 
-            Collection<TrackingNotification> trackingNotifications,
+            Set<TrackingNotification> trackingNotifications,
             ShipmentType type) {
         this.weight = weight;
         this.pickup = pickup;
@@ -107,7 +112,7 @@ public class Shipment extends RandomUUIDEntity {
         return trackingNotifications;
     }
 
-    public void setTrackingNotifications(Collection<TrackingNotification> trackingNotifications) {
+    public void setTrackingNotifications(Set<TrackingNotification> trackingNotifications) {
         this.trackingNotifications = trackingNotifications;
     }
 

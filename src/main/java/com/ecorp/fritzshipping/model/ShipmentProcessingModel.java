@@ -58,7 +58,7 @@ public class ShipmentProcessingModel implements Serializable {
     }
     
     public String finishProcessingShipment() {
-        deliveryService.processTrackingPoint(getNextTrackingPoint());
+        deliveryService.processNextTrackingPoint(shipment);
         conversation.end();
         
         return "finish-processing-shipment";

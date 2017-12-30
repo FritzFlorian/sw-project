@@ -60,7 +60,7 @@ public class ShipmentCreationModel implements Serializable {
      * @return The next page to be displayed.
      */
     public String confirmShipment() {
-        deliveryService.processTrackingPoint(shipment.getTrackingPoints().get(0));
+        deliveryService.processNextTrackingPoint(shipment);
         if (!conversation.isTransient()) {
             conversation.end();
         }

@@ -4,6 +4,7 @@ import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
 import com.ecorp.fritzshipping.entity.TrackingType;
+import com.ecorp.fritzshipping.service.external.MailHelperIF;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
@@ -27,6 +28,9 @@ public class DeliveryService implements DeliveryIF, Serializable {
     @Inject
     private Logger logger;
     
+    @Inject
+    private MailHelperIF mailHelperService;
+    
     @Override
     @Transactional
     public Shipment createShipment(Shipment shipment) throws ShipmentException {
@@ -47,7 +51,6 @@ public class DeliveryService implements DeliveryIF, Serializable {
         return shipment;
     }
     
-    @Transactional
     private void planRouteForShipment(Shipment shipment) {
         List<TrackingPoint> trackingPoints = new LinkedList<>();
         
@@ -73,14 +76,16 @@ public class DeliveryService implements DeliveryIF, Serializable {
     @Override
     @Transactional
     public Shipment getShipment(String id) {
-        TypedQuery<Shipment> query =
-                em.createQuery("SELECT s "
-                             + "FROM Shipment s "
-                             + "LEFT JOIN FETCH s.trackingPoints "
-                             + "WHERE s.id =:id", Shipment.class);
-        query.setParameter("id", id);
+        Shipment shipment = em.find(Shipment.class, id);
         
-        return query.getSingleResult();
+        // When calling to explicitly get a shipment we also
+        // want to load its associations, so preload them.
+        // This is done by calling them, as FETCH on multiple
+        // collections causes problems.
+        shipment.getTrackingNotifications().size();
+        shipment.getTrackingPoints().size();
+        
+        return shipment;
     }
     
     @Override
@@ -95,25 +100,47 @@ public class DeliveryService implements DeliveryIF, Serializable {
     }
 
     @Override
-    @Transactional
     public TrackingPoint getNextTrackingPoint(Shipment shipment) {
-        TypedQuery<TrackingPoint> query = em.createNamedQuery("TrackingPoint.nextForShipment", TrackingPoint.class);
-        query.setParameter("shipmentId", shipment.getId());
-        query.setMaxResults(1);
-        
-        List<TrackingPoint> results = query.getResultList();
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
+        for (TrackingPoint trackingPoint : shipment.getTrackingPoints()) {
+            if (!trackingPoint.isFinished()) {
+                return trackingPoint;
+            }
         }
+        
+        return null;
+    }
+    
+    @Override
+    public TrackingPoint getCurrentTrackingPoint(Shipment shipment) {
+        List<TrackingPoint> trackingPoints = shipment.getTrackingPoints();
+        for (int i = 0; i < trackingPoints.size() - 1; i++) {
+            if (!trackingPoints.get(i + 1).isFinished()) {
+                return trackingPoints.get(i);
+            }
+        }
+        
+        return trackingPoints.get(trackingPoints.size() - 1);
     }
 
     @Override
     @Transactional
-    public void processTrackingPoint(TrackingPoint trackingPoint) {
-        TrackingPoint loadedTrackingPoint = em.find(TrackingPoint.class, trackingPoint.getId());
+    public void processNextTrackingPoint(Shipment shipment) {
+        TrackingPoint loadedTrackingPoint = em.find(TrackingPoint.class, getNextTrackingPoint(shipment).getId());
         loadedTrackingPoint.setFinishedAt(new Date());
+        
+        // We attatch the shipment to be sure all added tracking points are there.
+        sendShipmentProcessEmailNotification(getShipment(shipment.getId()));
+    }
+    
+    private void sendShipmentProcessEmailNotification(Shipment shipment) {
+        TrackingPoint currentTrackingPoint = getCurrentTrackingPoint(shipment);
+        boolean lastPoint = currentTrackingPoint.getType() == TrackingType.DELIVERY;
+        
+        for (TrackingNotification trackingNotification : shipment.getTrackingNotifications()) {
+            if (!trackingNotification.isOnlyLastPoint() || lastPoint) {
+                mailHelperService.sendShipmentProgerssMail(shipment, currentTrackingPoint, trackingNotification.getEmail());
+            }
+        }
     }
 
     @Override
@@ -124,11 +151,8 @@ public class DeliveryService implements DeliveryIF, Serializable {
     }
 
     @Override
-    @Transactional
     public List<Shipment> getShipmentsReadyForPickup() {
         TypedQuery<Shipment> query = em.createNamedQuery("Shipment.readyForPickup", Shipment.class);
         return query.getResultList();
-    }
-    
-    
+    } 
 }

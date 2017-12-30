@@ -36,6 +36,14 @@ public interface DeliveryIF {
     public void registerTrackingNotification(Shipment shipment, TrackingNotification notification);
     
     /**
+     * Gets the last processed tracking point.
+     * 
+     * @param shipment The shipment of which to get the current tracking point.
+     * @return The current tracking point of the shipment.
+     */
+    public TrackingPoint getCurrentTrackingPoint(Shipment shipment);
+    
+    /**
      * Gets the next tracking point that has to be processed.
      * 
      * @param shipment The shipment of which to get the next tracking point.
@@ -44,12 +52,13 @@ public interface DeliveryIF {
     public TrackingPoint getNextTrackingPoint(Shipment shipment);
     
     /**
-     * Marks the given tracking point as processed after the
-     * required work has been done.
+     * Marks the next tracking point of the given shipment
+     * as processed after the required work has been done.
      * 
-     * @param trackingPoint The tracking point to be marked as processed.
+     * @param shipment The shipment of which to mark the next
+     *                 tracking point as processed.
      */
-    public void processTrackingPoint(TrackingPoint trackingPoint);
+    public void processNextTrackingPoint(Shipment shipment);
     
     /**
      * Deletes a shipment and all it's associated entities.

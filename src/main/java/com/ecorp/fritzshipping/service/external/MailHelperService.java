@@ -1,6 +1,8 @@
 package com.ecorp.fritzshipping.service.external;
 
 import com.ecorp.fritzshipping.entity.Customer;
+import com.ecorp.fritzshipping.entity.Shipment;
+import com.ecorp.fritzshipping.entity.TrackingPoint;
 import com.ecorp.gorillamail.services.Header;
 import com.ecorp.gorillamail.services.Mail;
 import com.ecorp.gorillamail.services.MailException_Exception;
@@ -8,6 +10,7 @@ import com.ecorp.gorillamail.services.MailService;
 import com.ecorp.gorillamail.services.MailServiceService;
 import com.ecorp.gorillamail.services.Template;
 import com.ecorp.gorillamail.services.User;
+import com.ecorp.gorillamail.services.Variable;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -50,23 +53,54 @@ public class MailHelperService implements MailHelperIF, Serializable {
         template.setId(MAIL_TEMPLATE_ID);
         
         Mail mail = new Mail();
-        mail.setAd(true);
+        mail.setAd(false);
         mail.setTemplate(template);
-        
-        Header toHeader = new Header();
-        toHeader.setName("to");
-        toHeader.setValue(customer.getEmail());
-        Header subjectHeader = new Header();
-        subjectHeader.setName("subject");
-        subjectHeader.setValue("Fritzshipping Registration Success");
-        
-        mail.getHeaders().add(toHeader);
-        mail.getHeaders().add(subjectHeader);
+
+        mail.getHeaders().add(makeHeader("to", customer.getEmail()));
+        mail.getHeaders().add(makeHeader("subject", "Fritzshipping Registration Success"));
         
         try {
             mailService.sendMail(mailServiceUser, mail);
         } catch (MailException_Exception ex) {
             logger.warn("Failed to send registration email to {}. Error in MailService.", customer.getEmail());
         }
-    }  
+    }
+
+    @Override
+    public void sendShipmentProgerssMail(Shipment shipment, TrackingPoint trackingPoint, String email) {
+        Template template = new Template();
+        template.setId(MAIL_TEMPLATE_ID);
+        
+        Mail mail = new Mail();
+        mail.setAd(true);
+        mail.setTemplate(template);
+        
+        mail.getHeaders().add(makeHeader("to", email));
+        mail.getHeaders().add(makeHeader("subject", "Fritzshipping Shipment Update"));
+        
+        mail.getVariables().add(makeVariable("shipmentId", shipment.getId()));
+        mail.getVariables().add(makeVariable("status", trackingPoint.getType().toString()));
+        
+        try {
+            mailService.sendMail(mailServiceUser, mail);
+        } catch (MailException_Exception ex) {
+            logger.warn("Failed to send shipment update '{}' to '{}'. ({}) Error in MailService.", shipment.getId(), email, trackingPoint.getType());
+        }
+    }
+    
+    private Variable makeVariable(String name, String value) {
+        Variable newVariable = new Variable();
+        newVariable.setName(name);
+        newVariable.setValue(value);
+        
+        return newVariable;
+    }
+    
+    private Header makeHeader(String name, String value) {
+        Header newHeader = new Header();
+        newHeader.setName(name);
+        newHeader.setValue(value);
+        
+        return newHeader;
+    }
 }

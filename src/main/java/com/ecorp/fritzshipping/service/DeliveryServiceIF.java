@@ -22,7 +22,7 @@ public interface DeliveryServiceIF {
      * Load an shipment with the given id.
      * 
      * @param id The id of the shipment to be loaded.
-     * @return The loaded shipment.
+     * @return The loaded shipment or null if none was found
      */
     public Shipment getShipment(String id);
     

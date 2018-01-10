@@ -100,6 +100,10 @@
             <to-view-id>/employee-website/processShipment.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>shipment-not-found</from-outcome>
+            <to-view-id>/employee-website/shipmentNotFound.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>finish-processing-shipment</from-outcome>
             <to-view-id>/employee-website/scanQRCode.xhtml</to-view-id>
             <redirect/>

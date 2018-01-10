@@ -54,7 +54,11 @@ public class ShipmentProcessingModel implements Serializable {
     }
 
     public String startProcessingShipment() {
-        return "start-processing-shipment";
+        if (shipment == null) {
+            return "shipment-not-found";
+        } else {
+            return "start-processing-shipment";
+        }
     }
     
     public String finishProcessingShipment() {

@@ -83,8 +83,10 @@ public class DeliveryService implements DeliveryServiceIF, Serializable {
         // want to load its associations, so preload them.
         // This is done by calling them, as FETCH on multiple
         // collections causes problems.
-        shipment.getTrackingNotifications().size();
-        shipment.getTrackingPoints().size();
+        if (shipment != null) {
+            shipment.getTrackingNotifications().size();
+            shipment.getTrackingPoints().size();
+        }
         
         return shipment;
     }

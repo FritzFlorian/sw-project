@@ -5,6 +5,7 @@ import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.service.external.MailHelperIF;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,11 +19,15 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.xml.ws.WebServiceException;
 import org.apache.logging.log4j.Logger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 @RequestScoped
 @WebService(serviceName="CustomerService", portName="CustomerPort")
 public class CustomerService implements CustomerServiceIF, Serializable {
+    private static final String algorithm = "SHA-256";
+    
     @PersistenceContext
     private EntityManager em;
     @Inject
@@ -37,6 +42,10 @@ public class CustomerService implements CustomerServiceIF, Serializable {
     @Transactional
     @WebMethod(exclude=true)
     public Customer createCustomer(Customer newCustomer) {
+        // Hash password, email should be fine as we nerver change it (it's the primary key/unique account name),
+        // only purpose is to not have the same salt for every account
+        newCustomer.setPassword(saltAndHash(newCustomer.getPassword(), newCustomer.getEmail()));
+        
         em.persist(newCustomer);
         try {
             mailHelper.sendRegistrationMail(newCustomer);
@@ -51,22 +60,21 @@ public class CustomerService implements CustomerServiceIF, Serializable {
     @Override
     @WebMethod(exclude=true)
     public Customer login(Customer unauthorizedCustomer) {
-        TypedQuery<Customer> query = 
-                em.createQuery("SELECT c "
-                             + "FROM Customer c "
-                             + "WHERE c.email=:email and "
-                             + "      c.password=:password", Customer.class);
-        query.setParameter("email", unauthorizedCustomer.getEmail());
-        query.setParameter("password", unauthorizedCustomer.getPassword());
+        Customer foundCustomer = em.find(Customer.class, unauthorizedCustomer.getEmail());
         
-        List<Customer>foundCustomers = query.getResultList();
-        if (foundCustomers.size() > 0) {
-            logger.debug("Login Success.");
-            return foundCustomers.get(0);
-        } else {
+        if (foundCustomer == null) {
             logger.debug("Login Failed.");
-            return null;
+            return null;            
+        } 
+        
+        String hashedPassword = saltAndHash(unauthorizedCustomer.getPassword(), unauthorizedCustomer.getEmail());
+        if (foundCustomer.getPassword().equals(hashedPassword)){
+            logger.debug("Login Success.");
+            return foundCustomer;
         }
+        
+        logger.debug("Login Failed.");
+        return null;
     }
     
     @Override
@@ -134,5 +142,20 @@ public class CustomerService implements CustomerServiceIF, Serializable {
         
         return result;
     }
+    
+    public String saltAndHash(String password, String salt) {
+        try {
+            MessageDigest hashAlgo = MessageDigest.getInstance(algorithm);
+            String toHash = salt + "#" + password;
+            byte[] output = hashAlgo.digest(toHash.getBytes("UTF-8"));
+            StringBuilder passwordBuilder = new StringBuilder();
+            for(byte b : output)
+                passwordBuilder.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            return passwordBuilder.toString();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            throw new RuntimeException("Could not hash password", ex);
+        }
+    }
+
     
 }

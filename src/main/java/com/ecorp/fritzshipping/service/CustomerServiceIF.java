@@ -6,7 +6,7 @@ import com.ecorp.fritzshipping.entity.Shipment;
 import java.util.List;
 
 
-public interface CustomerIF {
+public interface CustomerServiceIF {
     /**
      * @param newCustomer A pre filled customer to be created.
      * @return A new customer that is persistent in the database.

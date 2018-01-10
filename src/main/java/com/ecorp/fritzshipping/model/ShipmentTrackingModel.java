@@ -5,7 +5,6 @@
  */
 package com.ecorp.fritzshipping.model;
 
-import com.ecorp.fritzshipping.service.DeliveryIF;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
@@ -16,6 +15,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import org.omnifaces.cdi.Param;
 import javax.inject.Named;
+import com.ecorp.fritzshipping.service.DeliveryServiceIF;
 
 @Named
 @RequestScoped
@@ -25,7 +25,7 @@ public class ShipmentTrackingModel implements Serializable {
     private Shipment shipment;
     
     @Inject
-    private DeliveryIF deliveryService;
+    private DeliveryServiceIF deliveryService;
     
     private String email;
     private boolean onlyLast;

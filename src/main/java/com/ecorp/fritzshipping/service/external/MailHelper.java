@@ -19,9 +19,12 @@ import javax.inject.Inject;
 import javax.xml.ws.WebServiceRef;
 import org.apache.logging.log4j.Logger;
 
+// Simple helper/wrapper around the external mail service.
+// Remove redundant/boilerplate from other services and
+// allow simpler mocking.
 @ApplicationScoped
 @Alternative
-public class MailHelperService implements MailHelperIF, Serializable {
+public class MailHelper implements MailHelperIF, Serializable {
     // Not really 'nice', but good enoug for our purposes.
     private static final String USER_EMAIL = "flo.fritz@t-online.de";
     private static final String USER_PASSWORD = "123";

@@ -6,7 +6,7 @@ import com.ecorp.fritzshipping.entity.TrackingPoint;
 import java.util.List;
 
 
-public interface DeliveryIF {
+public interface DeliveryServiceIF {
     /**
      * Creates an shipment,
      * plans it's route and adds it's shipment steps.

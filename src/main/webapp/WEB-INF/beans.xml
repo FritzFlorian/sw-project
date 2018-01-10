@@ -5,7 +5,7 @@
        bean-discovery-mode="annotated">
     <alternatives>
         <class>
-            com.ecorp.fritzshipping.service.external.MailHelperServiceMock
+            com.ecorp.fritzshipping.service.external.MailHelper
         </class>
     </alternatives>
 </beans>

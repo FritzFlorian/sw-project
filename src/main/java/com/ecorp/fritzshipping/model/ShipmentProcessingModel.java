@@ -1,6 +1,5 @@
 package com.ecorp.fritzshipping.model;
 
-import com.ecorp.fritzshipping.service.DeliveryIF;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
 import java.io.Serializable;
@@ -9,6 +8,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import com.ecorp.fritzshipping.service.DeliveryServiceIF;
 
 
 @Named
@@ -21,7 +21,7 @@ public class ShipmentProcessingModel implements Serializable {
     private Shipment shipment;
     
     @Inject
-    private DeliveryIF deliveryService;
+    private DeliveryServiceIF deliveryService;
     
     @PostConstruct
     public void postConstruct() {

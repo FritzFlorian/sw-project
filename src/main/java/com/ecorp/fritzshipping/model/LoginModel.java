@@ -6,7 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import com.ecorp.fritzshipping.service.CustomerIF;
+import com.ecorp.fritzshipping.service.CustomerServiceIF;
 
 @Named
 @SessionScoped
@@ -15,7 +15,7 @@ public class LoginModel implements Serializable{
     private Customer loginScreenCustomer;
     
     @Inject
-    private CustomerIF customerService;
+    private CustomerServiceIF customerService;
     
     public LoginModel() {
         this.currentCustomer = null;

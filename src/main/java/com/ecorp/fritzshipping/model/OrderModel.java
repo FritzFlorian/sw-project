@@ -9,14 +9,14 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import com.ecorp.fritzshipping.service.CustomerIF;
+import com.ecorp.fritzshipping.service.CustomerServiceIF;
 
 
 @Named
 @SessionScoped
 public class OrderModel implements Serializable {
     @Inject
-    private CustomerIF customerService;
+    private CustomerServiceIF customerService;
     @Inject
     private LoginModel loginModel;
     

@@ -15,6 +15,7 @@ public interface MailHelperIF {
      */
     public void sendRegistrationMail(Customer customer);
     
+    
     /**
      * Send an mail about the progress of the given shipment to
      * the given email address.

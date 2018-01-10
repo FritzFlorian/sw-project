@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 @ApplicationScoped
 @Alternative
-public class MailHelperServiceMock implements MailHelperIF, Serializable {
+public class MailHelperMock implements MailHelperIF, Serializable {
     @Inject
     private Logger logger;
 

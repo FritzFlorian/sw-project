@@ -16,10 +16,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.xml.ws.WebServiceException;
 import org.apache.logging.log4j.Logger;
 
 @RequestScoped
-public class DeliveryService implements DeliveryIF, Serializable {
+public class DeliveryService implements DeliveryServiceIF, Serializable {
     @PersistenceContext
     private EntityManager em;
     
@@ -29,7 +30,7 @@ public class DeliveryService implements DeliveryIF, Serializable {
     private Logger logger;
     
     @Inject
-    private MailHelperIF mailHelperService;
+    private MailHelperIF mailHelper;
     
     @Override
     @Transactional
@@ -138,7 +139,11 @@ public class DeliveryService implements DeliveryIF, Serializable {
         
         for (TrackingNotification trackingNotification : shipment.getTrackingNotifications()) {
             if (!trackingNotification.isOnlyLastPoint() || lastPoint) {
-                mailHelperService.sendShipmentProgerssMail(shipment, currentTrackingPoint, trackingNotification.getEmail());
+                try {
+                    mailHelper.sendShipmentProgerssMail(shipment, currentTrackingPoint, trackingNotification.getEmail());
+                } catch(WebServiceException e) {
+                    logger.info("Could not send shipment update mail to new customer. Proceeding as it is not crucial, customer can check on status if needed.");
+                }
             }
         }
     }

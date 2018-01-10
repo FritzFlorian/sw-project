@@ -16,18 +16,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.xml.ws.WebServiceException;
 import org.apache.logging.log4j.Logger;
 
 
 @RequestScoped
 @WebService(serviceName="CustomerService", portName="CustomerPort")
-public class CustomerService implements CustomerIF, Serializable {
+public class CustomerService implements CustomerServiceIF, Serializable {
     @PersistenceContext
     private EntityManager em;
     @Inject
-    private DeliveryIF deliveryService;
+    private DeliveryServiceIF deliveryService;
     @Inject
-    private MailHelperIF mailHelperService;
+    private MailHelperIF mailHelper;
     
     @Inject
     private Logger logger;
@@ -37,7 +38,11 @@ public class CustomerService implements CustomerIF, Serializable {
     @WebMethod(exclude=true)
     public Customer createCustomer(Customer newCustomer) {
         em.persist(newCustomer);
-        mailHelperService.sendRegistrationMail(newCustomer);
+        try {
+            mailHelper.sendRegistrationMail(newCustomer);
+        } catch(WebServiceException e) {
+            logger.info("Could not send registration/greeting mail to new customer. Proceeding as it is not crucial.");
+        }
         
         logger.info("New customer with email {} registered.", newCustomer.getEmail());
         return newCustomer;

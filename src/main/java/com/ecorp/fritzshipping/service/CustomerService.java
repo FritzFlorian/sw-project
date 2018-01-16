@@ -56,11 +56,7 @@ public class CustomerService implements CustomerServiceIF, Serializable {
         newCustomer.setPassword(saltAndHash(newCustomer.getPassword(), newCustomer.getEmail()));
         
         em.persist(newCustomer);
-        try {
-            mailHelper.sendRegistrationMail(newCustomer);
-        } catch(WebServiceException e) {
-            logger.info("Could not send registration/greeting mail to new customer. Proceeding as it is not crucial.");
-        }
+        mailHelper.sendRegistrationMail(newCustomer);
         
         logger.info("New customer with email {} registered.", newCustomer.getEmail());
         return newCustomer;
@@ -196,7 +192,5 @@ public class CustomerService implements CustomerServiceIF, Serializable {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             throw new RuntimeException("Could not hash password", ex);
         }
-    }
-
-    
+    } 
 }

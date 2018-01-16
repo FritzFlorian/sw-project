@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceRef;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +29,8 @@ public class MailHelper implements MailHelperIF, Serializable {
     // Not really 'nice', but good enoug for our purposes.
     private static final String USER_EMAIL = "flo.fritz@t-online.de";
     private static final String USER_PASSWORD = "123";
-    private static final long MAIL_TEMPLATE_ID = 3;
+    private static final long REGISTRATION_MAIL_TEMPLATE_ID = 34;
+    private static final long SHIPMENT_UPDATE_MAIL_TEMPLATE_ID = 3;
     
     // Inject our mail service port
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/gorillamail/MailService.wsdl")
@@ -52,7 +54,7 @@ public class MailHelper implements MailHelperIF, Serializable {
     @Override 
     public void sendRegistrationMail(Customer customer) {
         Template template = new Template();
-        template.setId(MAIL_TEMPLATE_ID);
+        template.setId(REGISTRATION_MAIL_TEMPLATE_ID);
         
         Mail mail = new Mail();
         mail.setAd(false);
@@ -65,13 +67,15 @@ public class MailHelper implements MailHelperIF, Serializable {
             mailService.sendMail(mailServiceUser, mail);
         } catch (MailException_Exception ex) {
             logger.warn("Failed to send registration email to {}. Error in MailService.", customer.getEmail());
+        } catch(WebServiceException e) {
+            logger.warn("Failed to send registration email to {}. Timeout in MailService.", customer.getEmail());
         }
     }
 
     @Override
     public void sendShipmentProgerssMail(Shipment shipment, TrackingPoint trackingPoint, String email) {
         Template template = new Template();
-        template.setId(MAIL_TEMPLATE_ID);
+        template.setId(SHIPMENT_UPDATE_MAIL_TEMPLATE_ID);
         
         Mail mail = new Mail();
         mail.setAd(true);
@@ -84,10 +88,12 @@ public class MailHelper implements MailHelperIF, Serializable {
         mail.getVariables().add(makeVariable("status", trackingPoint.getType().toString()));
         
         try {
+            logger.debug("Sending mail for shipment update.");
             mailService.sendMail(mailServiceUser, mail);
         } catch (MailException_Exception ex) {
             logger.warn("Failed to send shipment update '{}' to '{}'. ({}) Error in MailService.", shipment.getId(), email, trackingPoint.getType());
-        }
+        } catch(WebServiceException e) {
+            logger.warn("Failed to send shipment update '{}' to '{}'. ({}) Timeout in MailService.", shipment.getId(), email, trackingPoint.getType());        }
     }
     
     private Variable makeVariable(String name, String value) {

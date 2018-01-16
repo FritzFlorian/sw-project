@@ -1,5 +1,6 @@
 package com.ecorp.fritzshipping.service;
 
+import com.ecorp.buero.service.OrderServiceService;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.entity.TrackingNotification;
 import com.ecorp.fritzshipping.entity.TrackingPoint;
@@ -17,10 +18,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.WebServiceRef;
 import org.apache.logging.log4j.Logger;
 
 @RequestScoped
 public class DeliveryService implements DeliveryServiceIF, Serializable {
+    private static final int OFFICE_SUPPLY_ACCOUNT_ID = 1001;
+    private static final int BOX_ARTICLE_ID = 2001;
+    
     @PersistenceContext
     private EntityManager em;
     
@@ -31,6 +36,9 @@ public class DeliveryService implements DeliveryServiceIF, Serializable {
     
     @Inject
     private MailHelperIF mailHelper;
+    
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport.othr.de_8080//blockstiftundradierer/OrderService.wsdl")
+    private OrderServiceService officeSupplyServiceRef;
     
     @Override
     @Transactional
@@ -141,11 +149,7 @@ public class DeliveryService implements DeliveryServiceIF, Serializable {
         
         for (TrackingNotification trackingNotification : shipment.getTrackingNotifications()) {
             if (!trackingNotification.isOnlyLastPoint() || lastPoint) {
-                try {
-                    mailHelper.sendShipmentProgerssMail(shipment, currentTrackingPoint, trackingNotification.getEmail());
-                } catch(WebServiceException e) {
-                    logger.info("Could not send shipment update mail to new customer. Proceeding as it is not crucial, customer can check on status if needed.");
-                }
+                mailHelper.sendShipmentProgerssMail(shipment, currentTrackingPoint, trackingNotification.getEmail());
             }
         }
     }
@@ -162,4 +166,30 @@ public class DeliveryService implements DeliveryServiceIF, Serializable {
         TypedQuery<Shipment> query = em.createNamedQuery("Shipment.readyForPickup", Shipment.class);
         return query.getResultList();
     } 
+
+    
+    @Override
+    public boolean orderOfficeSupply() {
+        // This is mostly a placeholder to use the office supply service.
+        com.ecorp.buero.service.OrderService officeSupplyService = officeSupplyServiceRef.getOrderServicePort();
+        com.ecorp.buero.service.Customer customer = new com.ecorp.buero.service.Customer();
+        customer.setId(OFFICE_SUPPLY_ACCOUNT_ID);
+        
+        com.ecorp.buero.service.Article boxArticle = new com.ecorp.buero.service.Article();
+        boxArticle.setId(BOX_ARTICLE_ID);
+        
+        try {
+            officeSupplyService.alterShoppingCart(customer, boxArticle, 20);
+            officeSupplyService.buyShoppingCart(customer);
+        } catch(com.ecorp.buero.service.Exception_Exception e) {
+            logger.warn("Could not order office supplies (exception in service)." + e.getMessage());
+            return false;
+        } catch(WebServiceException e) {
+            logger.warn("Could not order office supplies (timeout in service). " + e.getMessage());
+            return false;
+        }
+        
+        
+        return true;
+    }  
 }

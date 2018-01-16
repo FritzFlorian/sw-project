@@ -113,6 +113,19 @@
             <to-view-id>/employee-website/scanQRCode.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        
+        <!-- Office Supply -->
+        
+        <navigation-case>
+            <from-outcome>office-supply-error</from-outcome>
+            <to-view-id>/employee-website/officeSupplyPurchaseError.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>office-supply-success</from-outcome>
+            <to-view-id>/employee-website/officeSupplyPurchaseSuccess.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
     
 </faces-config>

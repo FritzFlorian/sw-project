@@ -73,4 +73,11 @@ public interface DeliveryServiceIF {
      * @return The shipments to be picked up.
      */
     public List<Shipment> getShipmentsReadyForPickup();
+    
+    /**
+     * Order boxes and other office supply for the employees.
+     * 
+     * @return true if the supply was orderd successfully.
+    */
+    public boolean orderOfficeSupply();
 }

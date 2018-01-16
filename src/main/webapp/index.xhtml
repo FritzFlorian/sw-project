@@ -25,10 +25,19 @@
                     FritzShipping is the go-to shipping service for your company.
                 </p>
                 
-                <b:button href="#{request.contextPath}/customer-website/login"
-                          value="Customer Website"/>
-                <b:button href="#{request.contextPath}/employee-website/index"
-                          value="Employee Website"/>
+                <b:panel title="Actions" collapsible="false">
+                    <p>Please select to what part of the Website you want to go</p>
+                    <b:buttonGroup>
+                        <b:button href="#{request.contextPath}/customer-website/login"
+                              value="Customer Website"/>
+                        <b:button href="#{request.contextPath}/employee-website/index"
+                              value="Employee Website"/>
+                    </b:buttonGroup>
+                </b:panel>
+                
+                <b:panel title="Ad">
+                    <b:image value="#{adModel.horizontalBannerUrl}"/>
+                </b:panel>
             </ui:define>
 
         </ui:composition>

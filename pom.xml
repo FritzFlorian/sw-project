@@ -181,6 +181,42 @@
                         <id>wsimport-generate-AccountingService</id>
                         <phase>generate-sources</phase>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>im-lamport_8080/banner_ad-1.0-SNAPSHOT/OrderService.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName></packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://im-lamport:8080/banner_ad-1.0-SNAPSHOT/OrderService?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/OrderService.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-OrderService</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>im-lamport.othr.de_8080/blockstiftundradierer/OrderService.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName></packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://im-lamport.othr.de:8080/blockstiftundradierer/OrderService?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/OrderService_1.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-OrderService_1</id>
+                        <phase>generate-sources</phase>
+                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>

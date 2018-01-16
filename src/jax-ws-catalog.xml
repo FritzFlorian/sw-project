@@ -2,4 +2,7 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://im-lamport:8080/gorillamail/MailService?wsdl" uri="wsdl/im-lamport_8080/gorillamail/MailService.wsdl"/>
     <system systemId="http://im-lamport.othr.de:8080/ecorp-bank/AccountingService?wsdl" uri="wsdl/im-lamport.othr.de_8080/ecorp-bank/AccountingService.wsdl"/>
+    <system systemId="http://im-lamport:8080/banner_ad-1.0-SNAPSHOT/OrderService?wsdl" uri="wsdl/im-lamport_8080/banner_ad-1.0-SNAPSHOT/OrderService.wsdl"/>
+    <system systemId="http://im-lamport:8080/blockstiftundradierer/OrderService?wsdl" uri="wsdl/im-lamport_8080/blockstiftundradierer/OrderService.wsdl"/>
+    <system systemId="http://im-lamport.othr.de:8080/blockstiftundradierer/OrderService?wsdl" uri="wsdl/im-lamport.othr.de_8080/blockstiftundradierer/OrderService.wsdl"/>
 </catalog>

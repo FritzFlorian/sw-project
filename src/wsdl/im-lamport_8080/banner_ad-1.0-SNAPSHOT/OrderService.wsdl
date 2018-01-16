@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.bannerad.ecorp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="OrderService" targetNamespace="http://service.bannerad.ecorp.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.bannerad.ecorp.com/" elementFormDefault="unqualified" targetNamespace="http://service.bannerad.ecorp.com/" version="1.0">
+
+  <xs:element name="banner" type="tns:banner"/>
+
+  <xs:element name="confirmation" type="tns:confirmation"/>
+
+  <xs:element name="customer" type="tns:customer"/>
+
+  <xs:element name="dimension" type="tns:dimension"/>
+
+  <xs:element name="orderBannerDesign" type="tns:orderBannerDesign"/>
+
+  <xs:element name="orderBannerDesignResponse" type="tns:orderBannerDesignResponse"/>
+
+  <xs:element name="orderBannerPlacement" type="tns:orderBannerPlacement"/>
+
+  <xs:element name="orderBannerPlacementResponse" type="tns:orderBannerPlacementResponse"/>
+
+  <xs:element name="picture" type="tns:picture"/>
+
+  <xs:element name="placingOrder" type="tns:placingOrder"/>
+
+  <xs:complexType name="orderBannerPlacement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:customer"/>
+      <xs:element minOccurs="0" name="arg1" type="tns:placingOrder"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="customer">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="email" type="xs:string"/>
+          <xs:element minOccurs="0" name="companyName" type="xs:string"/>
+          <xs:element minOccurs="0" name="IBAN" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="generatedIdEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="singleIdEntity">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="placingOrder">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="dimension" type="tns:dimension"/>
+          <xs:element minOccurs="0" name="orderDate" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="dimension">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element name="width" type="xs:int"/>
+          <xs:element name="height" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="orderBannerPlacementResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:confirmation"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="confirmation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="orderDate" type="xs:dateTime"/>
+      <xs:element name="price" type="xs:int"/>
+      <xs:element name="profit" type="xs:int"/>
+      <xs:element minOccurs="0" name="notes" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="urls" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="orderBannerDesign">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:customer"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="tns:banner"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="banner">
+    <xs:complexContent>
+      <xs:extension base="tns:picture">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element minOccurs="0" name="title" type="xs:string"/>
+          <xs:element name="placingCounter" type="xs:int"/>
+          <xs:element minOccurs="0" name="background" type="tns:picture"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="picture">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="tags" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="pictureURL" type="xs:string"/>
+          <xs:element minOccurs="0" name="imageTag" type="xs:string"/>
+          <xs:element minOccurs="0" name="dimension" type="tns:dimension"/>
+          <xs:element minOccurs="0" name="fontColor" type="tns:color"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="color">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="orderBannerDesignResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:confirmation"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="orderBannerPlacement">
+    <wsdl:part element="tns:orderBannerPlacement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="orderBannerPlacementResponse">
+    <wsdl:part element="tns:orderBannerPlacementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="orderBannerDesignResponse">
+    <wsdl:part element="tns:orderBannerDesignResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="orderBannerDesign">
+    <wsdl:part element="tns:orderBannerDesign" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrderService">
+    <wsdl:operation name="orderBannerPlacement">
+      <wsdl:input message="tns:orderBannerPlacement" name="orderBannerPlacement">
+    </wsdl:input>
+      <wsdl:output message="tns:orderBannerPlacementResponse" name="orderBannerPlacementResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="orderBannerDesign">
+      <wsdl:input message="tns:orderBannerDesign" name="orderBannerDesign">
+    </wsdl:input>
+      <wsdl:output message="tns:orderBannerDesignResponse" name="orderBannerDesignResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderServiceSoapBinding" type="tns:OrderService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="orderBannerPlacement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="orderBannerPlacement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="orderBannerPlacementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="orderBannerDesign">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="orderBannerDesign">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="orderBannerDesignResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderService">
+    <wsdl:port binding="tns:OrderServiceSoapBinding" name="OrderServicePort">
+      <soap:address location="http://im-lamport:8080/banner_ad-1.0-SNAPSHOT/OrderService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.buero.ecorp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="OrderServiceService" targetNamespace="http://service.buero.ecorp.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.buero.ecorp.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.buero.ecorp.com/">
+  <xs:element name="alterShoppingCart" type="tns:alterShoppingCart"/>
+  <xs:element name="alterShoppingCartResponse" type="tns:alterShoppingCartResponse"/>
+  <xs:element name="article" type="tns:article"/>
+  <xs:element name="buyShoppingCart" type="tns:buyShoppingCart"/>
+  <xs:element name="buyShoppingCartResponse" type="tns:buyShoppingCartResponse"/>
+  <xs:element name="customer" type="tns:customer"/>
+  <xs:complexType name="alterShoppingCart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:customer"/>
+      <xs:element minOccurs="0" name="arg1" type="tns:article"/>
+      <xs:element name="arg2" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customer">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+          <xs:element minOccurs="0" name="eMail" type="xs:string"/>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+          <xs:element minOccurs="0" name="iban" type="xs:string"/>
+          <xs:element minOccurs="0" name="address" type="tns:address"/>
+          <xs:element minOccurs="0" name="shoppingCart" type="tns:shoppingCart"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="generatedIdEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element name="id" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType abstract="true" name="singleIdEntity">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="city" type="xs:string"/>
+      <xs:element minOccurs="0" name="housenumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="street" type="xs:string"/>
+      <xs:element minOccurs="0" name="zipcode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="shoppingCart">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="cartItemList" nillable="true" type="tns:cartItem"/>
+          <xs:element minOccurs="0" name="orderDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="orderStatus" type="tns:orderStatus"/>
+          <xs:element minOccurs="0" name="total" type="xs:decimal"/>
+          <xs:element minOccurs="0" name="deliveryAddress" type="tns:address"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="cartItem">
+    <xs:complexContent>
+      <xs:extension base="tns:randomIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="article" type="tns:article"/>
+          <xs:element name="quantity" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="randomIdEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="article">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="price" type="xs:decimal"/>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element name="inventory" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="alterShoppingCartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:customer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="buyShoppingCart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:customer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="buyShoppingCartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:customer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="orderStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PURCHASED"/>
+      <xs:enumeration value="PAID"/>
+      <xs:enumeration value="SHIPPED"/>
+      <xs:enumeration value="COMPLETED"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Exception" type="tns:Exception"/>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="Exception">
+    <wsdl:part element="tns:Exception" name="Exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="alterShoppingCartResponse">
+    <wsdl:part element="tns:alterShoppingCartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="buyShoppingCart">
+    <wsdl:part element="tns:buyShoppingCart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="alterShoppingCart">
+    <wsdl:part element="tns:alterShoppingCart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="buyShoppingCartResponse">
+    <wsdl:part element="tns:buyShoppingCartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrderService">
+    <wsdl:operation name="alterShoppingCart">
+      <wsdl:input message="tns:alterShoppingCart" name="alterShoppingCart">
+    </wsdl:input>
+      <wsdl:output message="tns:alterShoppingCartResponse" name="alterShoppingCartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="buyShoppingCart">
+      <wsdl:input message="tns:buyShoppingCart" name="buyShoppingCart">
+    </wsdl:input>
+      <wsdl:output message="tns:buyShoppingCartResponse" name="buyShoppingCartResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderServiceServiceSoapBinding" type="tns:OrderService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="alterShoppingCart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="alterShoppingCart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="alterShoppingCartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="buyShoppingCart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="buyShoppingCart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="buyShoppingCartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderServiceService">
+    <wsdl:port binding="tns:OrderServiceServiceSoapBinding" name="OrderServicePort">
+      <soap:address location="http://im-lamport:8080/blockstiftundradierer/OrderService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

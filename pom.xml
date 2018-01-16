@@ -165,6 +165,22 @@
                         <id>wsimport-generate-MailService</id>
                         <phase>generate-sources</phase>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>im-lamport.othr.de_8080/ecorp-bank/AccountingService.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <staleFile>${project.build.directory}/jaxws/stale/AccountingService.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-AccountingService</id>
+                        <phase>generate-sources</phase>
+                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>

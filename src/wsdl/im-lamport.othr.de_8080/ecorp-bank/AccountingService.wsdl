@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.bank.ecorp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="AccountingServiceService" targetNamespace="http://service.bank.ecorp.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.bank.ecorp.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.bank.ecorp.com/">
+  <xs:element name="account" type="tns:account"/>
+  <xs:element name="bankTransaction" type="tns:bankTransaction"/>
+  <xs:element name="customer" type="tns:customer"/>
+  <xs:element name="requestDebit" type="tns:requestDebit"/>
+  <xs:element name="requestDebitResponse" type="tns:requestDebitResponse"/>
+  <xs:element name="singleIdEntity" type="tns:singleIdEntity"/>
+  <xs:element name="transactionRequest" type="tns:transactionRequest"/>
+  <xs:complexType name="requestDebit">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="transactionRequest" type="tns:transactionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="transactionRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="reference" type="xs:string"/>
+      <xs:element minOccurs="0" name="amount" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="customer" type="tns:customer"/>
+      <xs:element minOccurs="0" name="from" type="tns:account"/>
+      <xs:element minOccurs="0" name="to" type="tns:account"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customer">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType abstract="true" name="generatedIdEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType abstract="true" name="singleIdEntity">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="account">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="balance" type="xs:decimal"/>
+          <xs:element minOccurs="0" name="createdAt" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="customer" type="tns:customer"/>
+          <xs:element minOccurs="0" name="id" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="transactionEvent">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="card">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="requestDebitResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:bankTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="bankTransaction">
+    <xs:complexContent>
+      <xs:extension base="tns:generatedIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TransactionException" type="tns:TransactionException"/>
+  <xs:complexType name="TransactionException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="requestDebitResponse">
+    <wsdl:part element="tns:requestDebitResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="TransactionException">
+    <wsdl:part element="tns:TransactionException" name="TransactionException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestDebit">
+    <wsdl:part element="tns:requestDebit" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AccountingService">
+    <wsdl:operation name="requestDebit">
+      <wsdl:input message="tns:requestDebit" name="requestDebit">
+    </wsdl:input>
+      <wsdl:output message="tns:requestDebitResponse" name="requestDebitResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:TransactionException" name="TransactionException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AccountingServiceServiceSoapBinding" type="tns:AccountingService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="requestDebit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestDebit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestDebitResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="TransactionException">
+        <soap:fault name="TransactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AccountingServiceService">
+    <wsdl:port binding="tns:AccountingServiceServiceSoapBinding" name="AccountingServicePort">
+      <soap:address location="http://im-lamport:8080/ecorp-bank/AccountingService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

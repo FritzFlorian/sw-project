@@ -1,11 +1,13 @@
 package com.ecorp.fritzshipping.service;
 
+import com.ecorp.bank.service.AccountingServiceService;
 import com.ecorp.fritzshipping.entity.Customer;
 import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
 import com.ecorp.fritzshipping.service.external.MailHelperIF;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,19 +23,26 @@ import javax.xml.ws.WebServiceException;
 import org.apache.logging.log4j.Logger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.xml.ws.WebServiceRef;
 
 
 @RequestScoped
 @WebService(serviceName="CustomerService", portName="CustomerPort")
 public class CustomerService implements CustomerServiceIF, Serializable {
+    private static final long MY_BANK_ACCOUNT_ID = 16;
+    private static final long MY_BANK_CUSTOMER_ID = 15;
+    
     private static final String algorithm = "SHA-256";
     
     @PersistenceContext
     private EntityManager em;
     @Inject
     private DeliveryServiceIF deliveryService;
+    
     @Inject
     private MailHelperIF mailHelper;
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport.othr.de_8080/ecorp-bank/AccountingService.wsdl")
+    private AccountingServiceService accountingServiceRef;
     
     @Inject
     private Logger logger;
@@ -68,7 +77,11 @@ public class CustomerService implements CustomerServiceIF, Serializable {
         } 
         
         String hashedPassword = saltAndHash(unauthorizedCustomer.getPassword(), unauthorizedCustomer.getEmail());
-        if (foundCustomer.getPassword().equals(hashedPassword)){
+        // Also compare against 'plain' password,
+        // as we only work with that one when we load a customer internally
+        // and use that customer to call a service.
+        if (foundCustomer.getPassword().equals(hashedPassword) 
+                || foundCustomer.getPassword().equals(unauthorizedCustomer.getPassword())){
             logger.debug("Login Success.");
             return foundCustomer;
         }
@@ -93,13 +106,13 @@ public class CustomerService implements CustomerServiceIF, Serializable {
     @Override
     @Transactional
     @WebMethod
-    public Order placeOrder(Customer customer, List<Shipment> shipments) throws AuthenticationException, ShipmentException {
+    public Order placeOrder(Customer customer, List<Shipment> shipments) throws OrderException, ShipmentException {
         Customer loadedCustomer = login(customer);
         if (loadedCustomer ==  null) {
-            throw new AuthenticationException("Ivalid Customer email/password!");
+            throw new OrderException("Ivalid Customer email/password!");
         }
         
-        int totalPrice = 0;
+        long totalPrice = 0;
         List<Shipment> storedShipments = new LinkedList<>();
         for (Shipment shipment : shipments) {
             // Only use attributes that we want to be able to be set
@@ -115,8 +128,7 @@ public class CustomerService implements CustomerServiceIF, Serializable {
             totalPrice += shipment.getPrice();
         }
         
-        // TODO: Call Bank IF
-        long paymentTransactionID = 0;
+        long paymentTransactionID = requestDebit(loadedCustomer.getBankAccountId(), totalPrice, "");
         
         // Create and persist the order.
         Order newOrder = new Order(new Date(), paymentTransactionID, totalPrice,
@@ -127,6 +139,32 @@ public class CustomerService implements CustomerServiceIF, Serializable {
         
         logger.info("New order placed ({}).", newOrder.getId());
         return newOrder;
+    }
+    
+    private long requestDebit(long accountId, long ammount, String reference) throws OrderException {
+        com.ecorp.bank.service.Account from = new com.ecorp.bank.service.Account();
+        from.setId(accountId);
+        
+        com.ecorp.bank.service.Account to = new com.ecorp.bank.service.Account();
+        to.setId(MY_BANK_ACCOUNT_ID);
+        
+        com.ecorp.bank.service.Customer customer = new com.ecorp.bank.service.Customer();
+        customer.setId(MY_BANK_CUSTOMER_ID);
+        
+        com.ecorp.bank.service.TransactionRequest transactionRequest = new com.ecorp.bank.service.TransactionRequest();
+        transactionRequest.setFrom(from);
+        transactionRequest.setTo(to);
+        transactionRequest.setAmount(new BigDecimal(ammount).divide(new BigDecimal(100)));
+        transactionRequest.setReference(reference);
+        transactionRequest.setCustomer(customer);
+        
+        
+        try { // Call Web Service Operation
+            com.ecorp.bank.service.AccountingService port = accountingServiceRef.getAccountingServicePort();
+            return port.requestDebit(transactionRequest).getId();
+        } catch (com.ecorp.bank.service.TransactionException_Exception e) {
+            throw new OrderException("Error with payment: " + e.getMessage());
+        }
     }
 
     @Override

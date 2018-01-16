@@ -30,7 +30,7 @@ public interface CustomerServiceIF {
      * @return The correctly placed order.
      */
     public Order placeOrder(Customer customer, List<Shipment> shipments)
-            throws ShipmentException, AuthenticationException;
+            throws ShipmentException, OrderException;
     
     /**
      * Gets all orders of the given customer.

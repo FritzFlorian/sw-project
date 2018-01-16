@@ -3,7 +3,7 @@ package com.ecorp.fritzshipping.model;
 import com.ecorp.fritzshipping.service.ShipmentException;
 import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
-import com.ecorp.fritzshipping.service.AuthenticationException;
+import com.ecorp.fritzshipping.service.OrderException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class OrderModel implements Serializable {
         } catch (ShipmentException e) {
             lastException = e;
             return "order-creation-error";
-        } catch (AuthenticationException e) {
+        } catch (OrderException e) {
             return "order-creation-error";
         }
     }

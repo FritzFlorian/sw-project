@@ -93,10 +93,10 @@ public class CustomerService implements CustomerServiceIF, Serializable {
     @Override
     @Transactional
     @WebMethod
-    public Order placeOrder(Customer customer, List<Shipment> shipments) throws ShipmentException {
+    public Order placeOrder(Customer customer, List<Shipment> shipments) throws AuthenticationException, ShipmentException {
         Customer loadedCustomer = login(customer);
-        if (customer ==  null) {
-            throw new IllegalArgumentException("Ivalid Customer!");
+        if (loadedCustomer ==  null) {
+            throw new AuthenticationException("Ivalid Customer email/password!");
         }
         
         int totalPrice = 0;

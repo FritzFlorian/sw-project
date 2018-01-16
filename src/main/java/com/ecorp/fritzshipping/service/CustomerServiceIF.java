@@ -26,10 +26,11 @@ public interface CustomerServiceIF {
      * @param customer The customer that places the order.
      * @param shipments The shipments to be shipped with this order.
      * @throws ShipmentException Thrown if any constraint of an shipment was violated.
+     * @throws AuthenticationExcepiton Thrown if the given user/password combination does not exist.
      * @return The correctly placed order.
      */
     public Order placeOrder(Customer customer, List<Shipment> shipments)
-            throws ShipmentException;
+            throws ShipmentException, AuthenticationException;
     
     /**
      * Gets all orders of the given customer.

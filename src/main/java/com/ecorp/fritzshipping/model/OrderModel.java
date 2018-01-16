@@ -3,6 +3,7 @@ package com.ecorp.fritzshipping.model;
 import com.ecorp.fritzshipping.service.ShipmentException;
 import com.ecorp.fritzshipping.entity.Order;
 import com.ecorp.fritzshipping.entity.Shipment;
+import com.ecorp.fritzshipping.service.AuthenticationException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class OrderModel implements Serializable {
     // Keep the shipments of the currently created order.
     private List<Shipment> shipmentsOfCurrentOrder;
     private Shipment newShipment;
-    private ShipmentException lastException;
+    private Exception lastException;
     
     // Keep the currently selected order (detail view).
     private Order currentOrder;
@@ -74,6 +75,8 @@ public class OrderModel implements Serializable {
         } catch (ShipmentException e) {
             lastException = e;
             return "order-creation-error";
+        } catch (AuthenticationException e) {
+            return "order-creation-error";
         }
     }
     
@@ -88,7 +91,7 @@ public class OrderModel implements Serializable {
         return newShipment;
     }
 
-    public ShipmentException getLastException() {
+    public Exception getLastException() {
         return lastException;
     }
 

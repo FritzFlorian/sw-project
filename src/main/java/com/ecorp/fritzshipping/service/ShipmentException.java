@@ -9,11 +9,7 @@ public class ShipmentException extends Exception {
         super(message);
         this.shipment = shipment;
     }
-
-    ShipmentException() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     public Shipment getShipment() {
         return shipment;
     }

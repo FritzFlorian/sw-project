@@ -162,7 +162,10 @@ public class CustomerService implements CustomerServiceIF, Serializable {
         try { // Call Web Service Operation
             com.ecorp.bank.service.AccountingService port = accountingServiceRef.getAccountingServicePort();
             return port.requestDebit(transactionRequest).getId();
-        } catch (com.ecorp.bank.service.TransactionException_Exception e) {
+        } catch (com.ecorp.bank.service.TransactionException_Exception | WebServiceException e) {
+            // Abort because of timeout in webservice or error in external service.
+            // We do not want to continue here! We do not even consider creating
+            // orders that are not payed for.
             throw new OrderException("Error with payment: " + e.getMessage());
         }
     }

@@ -42,6 +42,11 @@
                 <h2>Notes/Readme</h2>
                 <ul>
                     <li>
+                        Test User:<br/>
+                        Email: test@test.test<br/>
+                        Password: test
+                    </li>
+                    <li>
                         Collections are loaded in multiple requests by calling root.childCollection.someMethod() in the Controllers,
                         this is not very clean but works fine and there seems to be no simple workaround (Eager Fetching has several bugs with multiple collections).
                     </li>
@@ -85,6 +90,12 @@
                     </li>
                     <li>
                         Repository Classes where not used, as there was not much use for all CRUD actions on all entities.
+                    </li>
+                    <li>
+                        A filter was used for restricted access to the customer portal.
+                    </li>
+                    <li>
+                        More notes can be found in comments in the code.
                     </li>
                 </ul>
             </ui:define>

@@ -3,6 +3,7 @@
 This is a JavaEE project for our course 'Software Development'.
 
 ## Notes
+- Test User: Email=test@test.test, Password=test
 - Collections are loaded in multiple requests by calling root.childCollection.someMethod() in the Controllers,
   this is not very clean but works fine and there seems to be no simple workaround (Eager Fetching has several bugs with multiple collections).
 - Bootsfaces components are used for UI styling/elements. The library seems quite active
@@ -22,3 +23,4 @@ This is a JavaEE project for our course 'Software Development'.
 - Two external services where wrapped for internal use and not used directly. (Ad- & Mail-Service)
 - Element Collections where not needed in the data model and therefore not used. (Embeddables where used instead)
 - Repository Classes where not used, as there was not much use for all CRUD actions on all entities.
+- A filter was used for restricted access to the customer portal.

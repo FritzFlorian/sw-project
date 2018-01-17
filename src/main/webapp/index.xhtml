@@ -26,7 +26,7 @@
                 </p>
                 
                 <b:panel title="Actions" collapsible="false">
-                    <p>Please select to what part of the Website you want to go</p>
+                    <p>Please select to what part of the Website you want to go to:</p>
                     <b:buttonGroup>
                         <b:button href="#{request.contextPath}/customer-website/login"
                               value="Customer Website"/>
@@ -38,6 +38,55 @@
                 <b:panel title="Ad">
                     <b:image value="#{adModel.horizontalBannerUrl}"/>
                 </b:panel>
+                
+                <h2>Notes/Readme</h2>
+                <ul>
+                    <li>
+                        Collections are loaded in multiple requests by calling root.childCollection.someMethod() in the Controllers,
+                        this is not very clean but works fine and there seems to be no simple workaround (Eager Fetching has several bugs with multiple collections).
+                    </li>
+                    <li>
+                         Bootsfaces components are used for UI styling/elements. The library seems quite active
+                         and it was used to try out an JavaEE UI library in the project.
+                         It has some downsides that where discovered during the project, but overall it worked out quite well. 
+                    </li>
+                    <li>
+                        Changes to Diagramms
+                        <ul>
+                            <li>
+                                Class Diagramm
+                                <ul>
+                                    <li>Address was mad embeddable</li>
+                                    <li>Customer now uses the email (it's unique identifier) as primary key</li>
+                                    <li>Some Attributes where renamed from snake case to camel case</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Component Diagram
+                                <ul>
+                                    <li>An additional Exception is thrown</li>
+                                    <li>An additional external service is used (Ads)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Usecase Diagram
+                                <ul>
+                                    <li>Added Usecase to use the office supply service</li>
+                                    <li>Added list of all orders ready to be picked up in employee dashboard</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Two external services where wrapped for internal use and not used directly. (Ad- and Mail-Service)
+                    </li>
+                    <li>
+                        Element Collections where not needed in the data model and therefore not used. (Embeddables where used instead)
+                    </li>
+                    <li>
+                        Repository Classes where not used, as there was not much use for all CRUD actions on all entities.
+                    </li>
+                </ul>
             </ui:define>
 
         </ui:composition>

@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 @ApplicationScoped
 public class AdHelper implements AdHelperIF {
+    // Placeholder when there is no banner from the ad service
+    private static final String DEFAULT_BANNER_URL = "http://via.placeholder.com/468x60";
     
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/banner_ad-1.0-SNAPSHOT/OrderService.wsdl")
     private OrderService_Service serviceRef;
@@ -46,7 +48,7 @@ public class AdHelper implements AdHelperIF {
             if (confirmation.getUrls().isEmpty()) {
                 // Ignore and simply do not show banner
                 logger.debug("Ad Service did not provide banner!");
-                return "";
+                return DEFAULT_BANNER_URL;
             } else {
                 logger.debug("Ad Service did provide banner.");
                 return confirmation.getUrls().get(0);
@@ -54,7 +56,7 @@ public class AdHelper implements AdHelperIF {
         } catch(WebServiceException e) {
             // Ignore and simply do not show banner
             logger.debug("Ad Service time out!");
-            return "";
+            return DEFAULT_BANNER_URL;
         }
     }
     

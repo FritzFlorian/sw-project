@@ -76,6 +76,7 @@ public class OrderModel implements Serializable {
             lastException = e;
             return "order-creation-error";
         } catch (OrderException e) {
+            lastException = e;
             return "order-creation-error";
         }
     }

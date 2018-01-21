@@ -2,7 +2,7 @@ package com.ecorp.fritzshipping.service;
 
 import com.ecorp.fritzshipping.entity.Shipment;
 
-public class ShipmentException extends Exception {
+public class ShipmentException extends RuntimeException {
     private Shipment shipment;
 
     public ShipmentException(Shipment shipment, String message) {
